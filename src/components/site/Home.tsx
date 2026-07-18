@@ -45,11 +45,23 @@ export function Home({ go }: { go: (p: string) => void }) {
 
           {/* Featured plate stack */}
           <div className="flex flex-col gap-3">
-            <button onClick={() => go("about")} className="group relative block aspect-[4/5] w-full overflow-hidden edge-hairline">
-              <img src={MEDIA.portrait} alt="Antaine Reilly — portrait" className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]" />
-              <div className="absolute inset-x-0 bottom-0 z-10 flex items-end justify-between p-3">
-                <span className="font-display text-lg italic text-[hsl(var(--bone))] mix-blend-difference">{BRAND.name}</span>
-                <ArrowUpRight className="h-5 w-5 text-[hsl(var(--bone))] opacity-0 transition-opacity group-hover:opacity-100 mix-blend-difference" />
+            <button onClick={() => go("about")} className="group block w-full text-left">
+              {/* Framed like the collection: black aluminium frame + museum mount */}
+              <div className="bg-[#101011] p-[10px] shadow-[0_14px_34px_-12px_rgba(0,0,0,0.45)] transition-transform duration-500 ease-out group-hover:-translate-y-1">
+                <div className="bg-[#f7f5f0] p-[7%]">
+                  <div className="outline outline-1 outline-[#d6d3cb]">
+                    <div className="relative aspect-[3/4] overflow-hidden">
+                      <img src={MEDIA.portrait} alt="Antaine Reilly — self portrait" className="h-full w-full object-cover" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* Gallery label */}
+              <div className="mt-3 flex items-baseline justify-between px-1">
+                <span className="font-display text-base italic">{BRAND.name}</span>
+                <span className="inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-label text-[hsl(var(--muted-foreground))]">
+                  Self portrait <ArrowUpRight className="h-3.5 w-3.5 opacity-0 transition-opacity group-hover:opacity-100" />
+                </span>
               </div>
             </button>
             <div className="flex items-center justify-between gap-3 border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-3">
