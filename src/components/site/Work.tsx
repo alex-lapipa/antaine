@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DISCIPLINES, WORKS, type Discipline, type Work } from "@/lib/site";
+import { DISCIPLINES, WORKS, BLANCO_Y_NEGRO, type Discipline, type Work } from "@/lib/site";
 import { Visual, Waveform } from "./primitives";
 import { MEDIA } from "@/assets/media";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -50,6 +50,25 @@ export function WorkIndex({ openWork }: { openWork: (id: string) => void }) {
           </button>
         ))}
       </div>
+
+      {/* Blanco y Negro — documentary series (real photographs) */}
+      <section className="mt-16">
+        <div className="mb-6 flex items-end justify-between border-t border-[hsl(var(--border))] pt-8">
+          <div>
+            <div className="font-mono text-[11px] tracking-label text-[hsl(var(--muted-foreground))]">SERIES — BLANCO Y NEGRO</div>
+            <h2 className="mt-2 font-display text-4xl font-light tracking-tightest">Blanco y Negro</h2>
+          </div>
+          <span className="font-mono text-[11px] tracking-label text-[hsl(var(--muted-foreground))]">{BLANCO_Y_NEGRO.length} PLATES</span>
+        </div>
+        <div className="columns-1 gap-4 sm:columns-2 lg:columns-3 [&>*]:mb-4">
+          {BLANCO_Y_NEGRO.map((g) => (
+            <figure key={g.key} className="break-inside-avoid edge-hairline">
+              <img src={MEDIA[g.key]} alt={g.alt} loading="lazy" className="w-full" />
+              <figcaption className="mt-2 font-mono text-[10px] tracking-label text-[hsl(var(--muted-foreground))]">{g.title}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

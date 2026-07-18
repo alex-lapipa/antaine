@@ -17,7 +17,7 @@ export const BRAND = {
   name: "Antaine Reilly",
   tagline: "Sound-maker, image-hunter, object collector, space designer.",
   location: "Working between Ireland & Asturias",
-  email: "antainereilly@gmail.com",
+  email: "alex@rmtv.io",
   instagram: "antainereilly",
   lapipa: "https://www.lapipa.io",
   established: "Views from the edges",
@@ -135,4 +135,28 @@ export const NAV: { key: string; label: string }[] = [
   { key: "shop", label: "Shop" },
   { key: "portal", label: "Portal" },
   { key: "about", label: "About" },
+];
+
+
+export type GalleryImage = { key: string; title: string; alt: string };
+export const BLANCO_Y_NEGRO: GalleryImage[] = [
+  { key: "love-parade-berlin", title: "Love Parade, Berlin", alt: "Blanco y Negro — Love Parade, Berlin — black-and-white photograph by Antaine Reilly" },
+  { key: "love-parade-i", title: "Love Parade I", alt: "Blanco y Negro — Love Parade I — black-and-white photograph by Antaine Reilly" },
+  { key: "love-parade-ii", title: "Love Parade II", alt: "Blanco y Negro — Love Parade II — black-and-white photograph by Antaine Reilly" },
+  { key: "reclaim-the-streets-london", title: "Reclaim the Streets, London", alt: "Blanco y Negro — Reclaim the Streets, London — black-and-white photograph by Antaine Reilly" },
+  { key: "carnival-against-capital", title: "Carnival Against Capital", alt: "Blanco y Negro — Carnival Against Capital — black-and-white photograph by Antaine Reilly" },
+  { key: "hackney-squat-party-1999", title: "Hackney Squat Party, 1999", alt: "Blanco y Negro — Hackney squat party, 1999 — black-and-white photograph by Antaine Reilly" },
+  { key: "brooklyn-street", title: "Brooklyn Street", alt: "Blanco y Negro — Brooklyn street — black-and-white photograph by Antaine Reilly" },
+  { key: "crossing-street", title: "Crossing", alt: "Blanco y Negro — Crossing, street portrait — black-and-white photograph by Antaine Reilly" },
+  { key: "sonar-2015", title: "Sónar, 2015", alt: "Blanco y Negro — Sónar, 2015 — black-and-white photograph by Antaine Reilly" },
+  { key: "razzmatazz-2016", title: "Razzmatazz, 2016", alt: "Blanco y Negro — Razzmatazz, 13 Feb 2016 — black-and-white photograph by Antaine Reilly" },
+  { key: "love-is-everywhere", title: "Love Is Everywhere", alt: "Blanco y Negro — Love is Everywhere — black-and-white photograph by Antaine Reilly" },
+  { key: "juanin-larriba-london", title: "Juanín Larriba, London", alt: "Blanco y Negro — Juanín Larriba, London — black-and-white photograph by Antaine Reilly" },
+  { key: "alonso-yayo-2025", title: "Alonso & Yayo, 2025", alt: "Blanco y Negro — Alonso & Yayo, 2025 — black-and-white photograph by Antaine Reilly" },
+  { key: "img-0181", title: "Plate 0181", alt: "Blanco y Negro — Plate (0181) — black-and-white photograph by Antaine Reilly" },
+  { key: "img-1953", title: "Plate 1953", alt: "Blanco y Negro — Plate (1953) — black-and-white photograph by Antaine Reilly" },
+  { key: "img-2019", title: "Plate 2019", alt: "Blanco y Negro — Plate (2019) — black-and-white photograph by Antaine Reilly" },
+  { key: "img-6246", title: "Plate 6246", alt: "Blanco y Negro — Plate (6246) — black-and-white photograph by Antaine Reilly" },
+  { key: "img-6901", title: "Plate 6901", alt: "Blanco y Negro — Plate (6901) — black-and-white photograph by Antaine Reilly" },
+  { key: "img-7670", title: "Plate 7670", alt: "Blanco y Negro — Plate (7670) — black-and-white photograph by Antaine Reilly" },
 ];
