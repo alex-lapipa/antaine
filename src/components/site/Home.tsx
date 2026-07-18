@@ -1,13 +1,10 @@
-import { BRAND, DISCIPLINES, WORKS, BLANCO_Y_NEGRO } from "@/lib/site";
+import { BRAND, DISCIPLINES } from "@/lib/site";
 import { POSTS } from "@/lib/journal";
 import { Visual, Waveform, Marquee, Mark } from "./primitives";
 import { MEDIA } from "@/assets/media";
 import { ArrowUpRight } from "lucide-react";
 
-export function Home({ go, openWork }: { go: (p: string) => void; openWork: (id: string) => void }) {
-  const featured = WORKS.filter((w) => w.featured);
-  const hero = featured.find((w) => w.img) ?? featured[0];
-
+export function Home({ go }: { go: (p: string) => void }) {
   return (
     <div className="animate-rise">
       {/* Hero */}
@@ -48,10 +45,10 @@ export function Home({ go, openWork }: { go: (p: string) => void; openWork: (id:
 
           {/* Featured plate stack */}
           <div className="flex flex-col gap-3">
-            <button onClick={() => openWork(hero.id)} className="group relative block aspect-[4/5] w-full edge-hairline">
-              <Visual img={hero.img} media={MEDIA} hue={hero.hue} seed={hero.id} className="h-full w-full" label={hero.plate} />
+            <button onClick={() => go("about")} className="group relative block aspect-[4/5] w-full overflow-hidden edge-hairline">
+              <img src={MEDIA.portrait} alt="Antaine Reilly — portrait" className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]" />
               <div className="absolute inset-x-0 bottom-0 z-10 flex items-end justify-between p-3">
-                <span className="font-display text-lg italic text-[hsl(var(--bone))] mix-blend-difference">{hero.title}</span>
+                <span className="font-display text-lg italic text-[hsl(var(--bone))] mix-blend-difference">{BRAND.name}</span>
                 <ArrowUpRight className="h-5 w-5 text-[hsl(var(--bone))] opacity-0 transition-opacity group-hover:opacity-100 mix-blend-difference" />
               </div>
             </button>
@@ -89,59 +86,6 @@ export function Home({ go, openWork }: { go: (p: string) => void; openWork: (id:
                 <span className="font-mono text-[11px] tracking-label text-[hsl(var(--muted-foreground))]">— {d.verb}</span>
               </div>
               <span className="hidden max-w-xs text-right font-sans text-sm text-[hsl(var(--muted-foreground))] md:block">{d.note}</span>
-            </button>
-          ))}
-        </div>
-      </section>
-
-      {/* Featured work */}
-      <section className="mx-auto max-w-[1400px] px-4 pb-16 sm:px-8">
-        <div className="mb-6 flex items-baseline justify-between">
-          <h2 className="font-display text-2xl italic">Selected work</h2>
-          <button onClick={() => go("shop")} className="link-underline font-mono text-xs uppercase tracking-label">All →</button>
-        </div>
-        {/* Slow continuous carousel — pause on hover, subtle lift on each plate */}
-        <div className="group/car relative overflow-hidden edge-hairline">
-          <div
-            className="flex w-max gap-3 animate-marquee group-hover/car:[animation-play-state:paused] sm:gap-4"
-            style={{ animationDuration: "70s" }}
-          >
-            {[...BLANCO_Y_NEGRO, ...BLANCO_Y_NEGRO].map((g, i) => (
-              <button
-                key={`${g.key}-${i}`}
-                onClick={() => go("shop")}
-                className="group relative shrink-0 overflow-hidden text-left"
-                aria-label={`${g.title} — view in shop`}
-              >
-                <img
-                  src={MEDIA[g.key]}
-                  alt={g.alt}
-                  loading="lazy"
-                  className="h-48 w-auto transition-all duration-700 ease-out group-hover:scale-[1.03] group-hover:brightness-110 sm:h-60"
-                />
-                <span className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-2 bg-gradient-to-t from-black/70 to-transparent px-3 pb-2 pt-8 font-mono text-[10px] tracking-label text-white opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
-                  {g.title}
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
-          {featured.map((w) => (
-            <button key={w.id} onClick={() => openWork(w.id)} className="group text-left">
-              <div className="relative aspect-square overflow-hidden edge-hairline">
-                <div className="h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.02]">
-                  <Visual img={w.img} media={MEDIA} hue={w.hue} seed={w.id} className="h-full w-full" label={w.plate} />
-                </div>
-              </div>
-              <div className="mt-2 flex items-start justify-between gap-2">
-                <div>
-                  <div className="font-display text-base leading-tight transition-colors duration-300 group-hover:text-[hsl(var(--accent))]">{w.title}</div>
-                  <div className="font-mono text-[10px] tracking-label text-[hsl(var(--muted-foreground))]">{w.year} · {w.discipline.toUpperCase()}</div>
-                </div>
-                <ArrowUpRight className="h-4 w-4 shrink-0 opacity-0 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-100" />
-              </div>
             </button>
           ))}
         </div>

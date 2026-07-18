@@ -42,7 +42,7 @@ function Shell() {
     <div className="grain-fixed flex min-h-screen flex-col">
       <Nav page={page} go={go} />
       <main className="flex-1">
-        {page === "home" && <Home go={go} openWork={openWork} />}
+        {page === "home" && <Home go={go} />}
         {page === "work" && <WorkIndex openWork={openWork} />}
         {page === "shop" && <Shop />}
         {page === "journal" && <Journal />}
