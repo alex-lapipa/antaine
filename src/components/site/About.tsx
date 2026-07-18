@@ -1,12 +1,25 @@
 import { useState } from "react";
 import { BRAND, DISCIPLINES, JOURNEY } from "@/lib/site";
+import { submitEnquiry } from "@/lib/store";
 import { Img, Mark } from "./primitives";
 import { MEDIA } from "@/assets/media";
 import { ArrowRight } from "lucide-react";
 
 export function About() {
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [err, setErr] = useState("");
   const [form, setForm] = useState({ name: "", email: "", note: "" });
+
+  const send = async () => {
+    if (sending) return;
+    setErr("");
+    setSending(true);
+    const r = await submitEnquiry(form.name, form.email, form.note);
+    setSending(false);
+    if (r.ok) setSent(true);
+    else setErr(r.error || "Could not send.");
+  };
 
   return (
     <div className="mx-auto max-w-[1400px] animate-rise px-4 py-10 sm:px-8 sm:py-14">
@@ -80,11 +93,12 @@ export function About() {
                   className="w-full border border-[hsl(var(--input))] bg-[hsl(var(--background))] px-3 py-2.5 text-sm outline-none focus:border-[hsl(var(--accent))]" />
                 <textarea value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} placeholder="Sound, print, object or space — tell me what you're after." rows={4}
                   className="w-full resize-none border border-[hsl(var(--input))] bg-[hsl(var(--background))] px-3 py-2.5 text-sm outline-none focus:border-[hsl(var(--accent))]" />
-                <button onClick={() => setSent(true)}
-                  className="mt-1 flex items-center justify-center gap-2 rounded-sm bg-[hsl(var(--ink))] py-3 font-mono text-xs uppercase tracking-label text-[hsl(var(--bone))] transition-transform hover:-translate-y-0.5">
-                  Send <ArrowRight className="h-4 w-4" />
+                {err && <p className="font-mono text-[11px] tracking-label text-[hsl(var(--destructive))]">{err}</p>}
+                <button onClick={send} disabled={sending}
+                  className="mt-1 flex items-center justify-center gap-2 rounded-sm bg-[hsl(var(--ink))] py-3 font-mono text-xs uppercase tracking-label text-[hsl(var(--bone))] transition-transform hover:-translate-y-0.5 disabled:opacity-60">
+                  {sending ? "Sending…" : "Send"} <ArrowRight className="h-4 w-4" />
                 </button>
-                <p className="font-mono text-[10px] tracking-label text-[hsl(var(--muted-foreground))]">v0 form · production posts via Resend edge function</p>
+                <p className="font-mono text-[10px] tracking-label text-[hsl(var(--muted-foreground))]">Your details are stored securely, only to answer you. Erasure anytime: {BRAND.email}.</p>
               </div>
             )}
           </div>

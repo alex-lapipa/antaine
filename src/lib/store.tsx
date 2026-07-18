@@ -74,23 +74,111 @@ export function useCart() {
   return c;
 }
 
-// --- Portal auth (mock; swap for Supabase auth) ---
+// --- Portal auth (access code gate; member registry in Supabase, session persisted locally) ---
+type PortalUser = { email: string; name: string; tier: "member" | "studio" };
 type AuthCtx = {
-  user: { email: string; name: string; tier: "member" | "studio" } | null;
-  signIn: (email: string, code: string) => { ok: boolean; error?: string };
+  user: PortalUser | null;
+  signIn: (email: string, code: string, marketingConsent?: boolean) => { ok: boolean; error?: string };
   signOut: () => void;
 };
 const Auth = createContext<AuthCtx | null>(null);
 
+const SESSION_KEY = "antaine_portal_session_v1";
+
+// Supabase (public project URL + publishable anon key — safe for the browser; the
+// portal_members table is RLS-locked with no anon policies, writes go only through
+// the portal_register() SECURITY DEFINER RPC, which never returns stored data).
+const SUPABASE_URL = (import.meta.env.VITE_SUPABASE_URL as string) || "https://lxeuxyieicluzgikflzx.supabase.co";
+const SUPABASE_ANON_KEY =
+  (import.meta.env.VITE_SUPABASE_ANON_KEY as string) ||
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx4ZXV4eWllaWNsdXpnaWtmbHp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzNDU4MzMsImV4cCI6MjA5OTkyMTgzM30.gyuApaciH0bhDvnSejrFSEEinIN88MhaITsPLsl5_3c";
+
+// Exact consent wording recorded server-side alongside the opt-in (GDPR record of consent).
+export const MARKETING_CONSENT_TEXT =
+  "Send me occasional updates on new work, tapes and editions. I can unsubscribe or request erasure anytime via alex@rmtv.io.";
+
+function loadSession(): PortalUser | null {
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    if (!raw) return null;
+    const u = JSON.parse(raw) as PortalUser;
+    return u && typeof u.email === "string" ? u : null;
+  } catch {
+    return null;
+  }
+}
+
+function registerMember(email: string, name: string, marketing: boolean) {
+  // Fire-and-forget: registration must never block portal access.
+  fetch(`${SUPABASE_URL}/rest/v1/rpc/portal_register`, {
+    method: "POST",
+    headers: {
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      p_email: email,
+      p_name: name,
+      p_marketing: marketing,
+      p_consent_text: marketing ? MARKETING_CONSENT_TEXT : null,
+    }),
+  }).catch(() => {
+    /* offline / blocked — access still granted; registry syncs on next sign-in */
+  });
+}
+
+/** Submit an enquiry to the sealed Supabase RPC (About form). */
+export async function submitEnquiry(
+  name: string,
+  email: string,
+  note: string,
+): Promise<{ ok: boolean; error?: string }> {
+  try {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/rpc/enquiry_submit`, {
+      method: "POST",
+      headers: {
+        apikey: SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ p_name: name, p_email: email, p_note: note }),
+    });
+    if (r.ok) return { ok: true };
+    const body = (await r.json().catch(() => null)) as { message?: string } | null;
+    const msg = body?.message ?? "";
+    if (msg.includes("invalid email")) return { ok: false, error: "Enter a valid email." };
+    if (msg.includes("missing fields")) return { ok: false, error: "Name, email and a note are all needed." };
+    if (msg.includes("too many")) return { ok: false, error: "Too many messages today — email me directly instead." };
+    return { ok: false, error: "Could not send right now — try again, or email me directly." };
+  } catch {
+    return { ok: false, error: "Could not send right now — try again, or email me directly." };
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<AuthCtx["user"]>(null);
-  const signIn: AuthCtx["signIn"] = (email, code) => {
+  const [user, setUser] = useState<AuthCtx["user"]>(() => loadSession());
+  const signIn: AuthCtx["signIn"] = (email, code, marketingConsent = false) => {
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return { ok: false, error: "Enter a valid email." };
     if (code.trim().toUpperCase() !== "ESTUARY") return { ok: false, error: "Access code not recognised." };
-    setUser({ email, name: email.split("@")[0], tier: "studio" });
+    const u: PortalUser = { email: email.trim(), name: email.split("@")[0], tier: "studio" };
+    setUser(u);
+    try {
+      localStorage.setItem(SESSION_KEY, JSON.stringify(u)); // stay signed in until explicit sign-out
+    } catch {
+      /* private mode — session lives for the tab only */
+    }
+    registerMember(u.email, u.name, marketingConsent);
     return { ok: true };
   };
-  const signOut = () => setUser(null);
+  const signOut = () => {
+    setUser(null);
+    try {
+      localStorage.removeItem(SESSION_KEY);
+    } catch {
+      /* noop */
+    }
+  };
   return <Auth.Provider value={{ user, signIn, signOut }}>{children}</Auth.Provider>;
 }
 export function useAuth() {

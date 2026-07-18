@@ -1,6 +1,8 @@
 import { useRef, useState } from "react";
-import { useAuth } from "@/lib/store";
-import { UNBOXED_TRACKS, UNBOXED_SOUND, DISPATCHES, type Track } from "@/lib/site";
+import { useAuth, MARKETING_CONSENT_TEXT } from "@/lib/store";
+import { BRAND, POLICIES, UNBOXED_TRACKS, UNBOXED_SOUND, DISPATCHES, type Track } from "@/lib/site";
+
+const PRIVACY_URL = POLICIES.find((p) => p.label === "Privacy policy")?.url ?? "#";
 import { Waveform, Mark } from "./primitives";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Download, LogOut, ArrowRight, Play, Pause } from "lucide-react";
@@ -21,10 +23,11 @@ function Gate() {
   const { signIn } = useAuth();
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
+  const [consent, setConsent] = useState(false); // GDPR: opt-in, never pre-ticked
   const [err, setErr] = useState("");
 
   const submit = () => {
-    const r = signIn(email, code);
+    const r = signIn(email, code, consent);
     if (!r.ok) setErr(r.error || "Could not sign in.");
   };
 
@@ -62,6 +65,19 @@ function Gate() {
             className="w-full border border-[hsl(var(--input))] bg-[hsl(var(--background))] px-3 py-2.5 font-mono text-sm uppercase tracking-label outline-none focus:border-[hsl(var(--accent))]"
           />
           {err && <p className="mt-3 font-mono text-[11px] tracking-label text-[hsl(var(--destructive))]">{err}</p>}
+
+          <label className="mt-4 flex cursor-pointer items-start gap-2.5">
+            <input
+              type="checkbox"
+              checked={consent}
+              onChange={(e) => setConsent(e.target.checked)}
+              className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-[hsl(var(--accent))]"
+            />
+            <span className="text-[12px] leading-relaxed text-[hsl(var(--muted-foreground))]">
+              {MARKETING_CONSENT_TEXT}
+            </span>
+          </label>
+
           <button
             onClick={submit}
             className="mt-5 flex w-full items-center justify-center gap-2 rounded-sm bg-[hsl(var(--ink))] py-3 font-mono text-xs uppercase tracking-label text-[hsl(var(--bone))] transition-transform hover:-translate-y-0.5"
@@ -69,8 +85,13 @@ function Gate() {
             Enter <ArrowRight className="h-4 w-4" />
           </button>
           <p className="mt-4 font-mono text-[10px] leading-relaxed tracking-label text-[hsl(var(--muted-foreground))]">
+            Your email is stored securely to operate your Portal access — nothing else, and never shared.
+            Updates only if you tick the box. Erasure anytime: {BRAND.email}.{" "}
+            <a href={PRIVACY_URL} target="_blank" rel="noreferrer" className="text-[hsl(var(--accent))] underline">Privacy policy</a>.
+            You stay signed in on this device until you sign out.
+          </p>
+          <p className="mt-3 font-mono text-[10px] leading-relaxed tracking-label text-[hsl(var(--muted-foreground))]">
             Demo access — any email, code <button onClick={() => setCode("ESTUARY")} className="text-[hsl(var(--accent))] underline">ESTUARY</button>.
-            Production wires to Supabase auth + RLS.
           </p>
         </div>
       </div>
