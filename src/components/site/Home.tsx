@@ -32,7 +32,7 @@ export function Home({ go, openWork }: { go: (p: string) => void; openWork: (id:
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <button
-                onClick={() => go("work")}
+                onClick={() => go("shop")}
                 className="group inline-flex items-center gap-2 rounded-sm bg-[hsl(var(--ink))] px-5 py-3 font-mono text-xs uppercase tracking-label text-[hsl(var(--bone))] transition-transform hover:-translate-y-0.5"
               >
                 See the work <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -78,7 +78,7 @@ export function Home({ go, openWork }: { go: (p: string) => void; openWork: (id:
           {DISCIPLINES.map((d, i) => (
             <button
               key={d.key}
-              onClick={() => go("work")}
+              onClick={() => go("shop")}
               className="group grid w-full grid-cols-[auto_1fr_auto] items-center gap-4 py-5 text-left transition-colors hover:bg-[hsl(var(--card))] sm:gap-8"
             >
               <span className="font-mono text-xs text-[hsl(var(--muted-foreground))]">0{i + 1}</span>
@@ -98,7 +98,7 @@ export function Home({ go, openWork }: { go: (p: string) => void; openWork: (id:
       <section className="mx-auto max-w-[1400px] px-4 pb-16 sm:px-8">
         <div className="mb-6 flex items-baseline justify-between">
           <h2 className="font-display text-2xl italic">Selected work</h2>
-          <button onClick={() => go("work")} className="link-underline font-mono text-xs uppercase tracking-label">All →</button>
+          <button onClick={() => go("shop")} className="link-underline font-mono text-xs uppercase tracking-label">All →</button>
         </div>
         <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {featured.map((w) => (

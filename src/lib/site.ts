@@ -109,7 +109,7 @@ export const COMMISSIONS: Commission[] = [
 
 export const NAV: { key: string; label: string }[] = [
   { key: "home", label: "Index" },
-  { key: "work", label: "Work" },
+  // work hidden for now — Blanco y Negro lives in the Shop as products
   { key: "journal", label: "Journal" },
   { key: "shop", label: "Shop" },
   { key: "portal", label: "Portal" },
