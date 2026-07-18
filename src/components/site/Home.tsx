@@ -1,4 +1,4 @@
-import { BRAND, DISCIPLINES, WORKS } from "@/lib/site";
+import { BRAND, DISCIPLINES, WORKS, BLANCO_Y_NEGRO } from "@/lib/site";
 import { POSTS } from "@/lib/journal";
 import { Visual, Waveform, Marquee, Mark } from "./primitives";
 import { MEDIA } from "@/assets/media";
@@ -100,18 +100,47 @@ export function Home({ go, openWork }: { go: (p: string) => void; openWork: (id:
           <h2 className="font-display text-2xl italic">Selected work</h2>
           <button onClick={() => go("shop")} className="link-underline font-mono text-xs uppercase tracking-label">All →</button>
         </div>
-        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+        {/* Slow continuous carousel — pause on hover, subtle lift on each plate */}
+        <div className="group/car relative overflow-hidden edge-hairline">
+          <div
+            className="flex w-max gap-3 animate-marquee group-hover/car:[animation-play-state:paused] sm:gap-4"
+            style={{ animationDuration: "70s" }}
+          >
+            {[...BLANCO_Y_NEGRO, ...BLANCO_Y_NEGRO].map((g, i) => (
+              <button
+                key={`${g.key}-${i}`}
+                onClick={() => go("shop")}
+                className="group relative shrink-0 overflow-hidden text-left"
+                aria-label={`${g.title} — view in shop`}
+              >
+                <img
+                  src={MEDIA[g.key]}
+                  alt={g.alt}
+                  loading="lazy"
+                  className="h-48 w-auto transition-all duration-700 ease-out group-hover:scale-[1.03] group-hover:brightness-110 sm:h-60"
+                />
+                <span className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-2 bg-gradient-to-t from-black/70 to-transparent px-3 pb-2 pt-8 font-mono text-[10px] tracking-label text-white opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                  {g.title}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
           {featured.map((w) => (
             <button key={w.id} onClick={() => openWork(w.id)} className="group text-left">
-              <div className="relative aspect-square edge-hairline">
-                <Visual img={w.img} media={MEDIA} hue={w.hue} seed={w.id} className="h-full w-full" label={w.plate} />
+              <div className="relative aspect-square overflow-hidden edge-hairline">
+                <div className="h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.02]">
+                  <Visual img={w.img} media={MEDIA} hue={w.hue} seed={w.id} className="h-full w-full" label={w.plate} />
+                </div>
               </div>
               <div className="mt-2 flex items-start justify-between gap-2">
                 <div>
-                  <div className="font-display text-base leading-tight">{w.title}</div>
+                  <div className="font-display text-base leading-tight transition-colors duration-300 group-hover:text-[hsl(var(--accent))]">{w.title}</div>
                   <div className="font-mono text-[10px] tracking-label text-[hsl(var(--muted-foreground))]">{w.year} · {w.discipline.toUpperCase()}</div>
                 </div>
-                <ArrowUpRight className="h-4 w-4 shrink-0 opacity-0 transition-opacity group-hover:opacity-100" />
+                <ArrowUpRight className="h-4 w-4 shrink-0 opacity-0 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-100" />
               </div>
             </button>
           ))}
