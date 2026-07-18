@@ -1,4 +1,5 @@
 import { BRAND, NAV, POLICIES } from "@/lib/site";
+import { openConsentSettings } from "@/lib/consent";
 import { Waveform } from "./primitives";
 
 export function Footer({ go }: { go: (p: string) => void }) {
@@ -39,6 +40,9 @@ export function Footer({ go }: { go: (p: string) => void }) {
                 <a href={p.url} target="_blank" rel="noreferrer" className="link-underline hover:opacity-100">{p.label}</a>
               </li>
             ))}
+            <li>
+              <button onClick={openConsentSettings} className="link-underline hover:opacity-100">Cookie settings</button>
+            </li>
           </ul>
         </div>
         <div className="mt-6 flex flex-col justify-between gap-2 border-t border-[hsl(var(--bone))]/15 pt-5 font-mono text-[10px] tracking-label opacity-50 sm:flex-row">
