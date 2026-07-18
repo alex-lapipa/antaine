@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ANTAINE stopgap sitemap (P0).
+  Only the site root is a crawlable path today: the SPA uses hash routes (#/...),
+  which are NOT distinct URLs. When the Route B prerender bridge ships (real
+  /prints/[handle] and /collections/[handle] paths), this sitemap expands to one
+  <url> per product, collection and journal entry — ideally generated at build time.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://antaine.xyz/</loc>
+    <lastmod>2026-07-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
