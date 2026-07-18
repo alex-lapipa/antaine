@@ -40,7 +40,7 @@ export type SFProduct = {
 
 const PRODUCTS_QUERY = /* GraphQL */ `
   query Products($first: Int!) {
-    products(first: $first, sortKey: CREATED, reverse: true) {
+    products(first: $first, sortKey: CREATED_AT, reverse: true) {
       nodes {
         id
         handle
