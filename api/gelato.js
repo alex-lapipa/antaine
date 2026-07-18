@@ -18,7 +18,7 @@ export default async function handler(req, res) {
   } catch {
     return res.status(400).json({ error: "invalid url" });
   }
-  if (target.protocol !== "https:" || !/\.gelato\.com$/.test(target.hostname)) {
+  if (target.protocol !== "https:" || !/\.(gelato|gelatoapis)\.com$/.test(target.hostname)) {
     return res.status(400).json({ error: "host not allowed" });
   }
   if (!["GET", "POST", "PUT", "PATCH", "DELETE"].includes(method)) {
