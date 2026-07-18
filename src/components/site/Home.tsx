@@ -68,11 +68,10 @@ export function Home({ go }: { go: (p: string) => void }) {
       {/* Unboxed — the project statement */}
       <section className="border-b border-[hsl(var(--border))] bg-[hsl(var(--card))]">
         <div className="mx-auto max-w-3xl px-4 py-14 text-center sm:px-8 sm:py-20">
-          <div className="font-mono text-[11px] tracking-label text-[hsl(var(--accent))]">{UNBOXED.title.toUpperCase()}</div>
-          <p className="mt-5 font-display text-2xl font-light leading-snug tracking-tightest sm:text-3xl">
-            A message in a bottle, sent forward through thirty years.
-          </p>
-          <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-relaxed text-[hsl(var(--foreground))]/85">{UNBOXED.body}</p>
+          <h2 className="font-display text-3xl font-light leading-tight tracking-tightest text-[hsl(var(--accent))] sm:text-5xl">
+            {UNBOXED.title.toUpperCase()}
+          </h2>
+          <p className="mx-auto mt-7 max-w-2xl text-[15px] leading-relaxed text-[hsl(var(--foreground))]/85">{UNBOXED.body}</p>
           <button
             onClick={() => go("shop")}
             className="mt-8 inline-flex items-center gap-2 rounded-sm border border-[hsl(var(--ink))] px-5 py-2.5 font-mono text-[11px] uppercase tracking-label transition-colors hover:bg-[hsl(var(--ink))] hover:text-[hsl(var(--bone))]"
