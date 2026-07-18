@@ -103,7 +103,7 @@ export function Home({ go }: { go: (p: string) => void }) {
           {DISCIPLINES.map((d, i) => (
             <button
               key={d.key}
-              onClick={() => go("shop")}
+              onClick={() => go(d.key === "sound" ? "portal" : "shop")}
               className="group grid w-full grid-cols-[auto_1fr_auto] items-center gap-4 py-5 text-left transition-colors hover:bg-[hsl(var(--card))] sm:gap-8"
             >
               <span className="font-mono text-xs text-[hsl(var(--muted-foreground))]">0{i + 1}</span>
