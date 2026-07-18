@@ -41,8 +41,6 @@ export type Work = {
 export const WORKS: Work[] = [
   { id: "harbord", discipline: "image", title: "Harbord Street, Toronto", year: "2016", medium: "Archival pigment, edition of 12", plate: "I · 01", hue: 205, img: "img1781", featured: true,
     blurb: "A quiet corner of Toronto — Harbord Street under a moving sky. No one in the frame but the city itself." },
-  { id: "la-pipa", discipline: "spaces", title: "LA PIPA", year: "2024", medium: "Bar, sound system & object shelf", plate: "P · 01", hue: 24, img: "pipa", featured: true,
-    blurb: "A room in Gijón tuned for late nights — the bar as an instrument. lapipa.io" },
   { id: "listening-room", discipline: "spaces", title: "Caña North Drive", year: "2025", medium: "Interior + acoustic design", plate: "P · 02", hue: 200, img: "cana", featured: true,
     blurb: "A house built around a room you're meant to hear as much as see." },
 ];

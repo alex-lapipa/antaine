@@ -2,7 +2,6 @@
 import sirat from "./old/sirat.jpg";
 import aphex from "./old/aphex.gif";
 import cana from "./old/cana.jpg";
-import pipa from "./old/pipa.jpg";
 import img1781 from "./old/img1781.jpg";
 import img0984 from "./old/img0984.jpg";
 
@@ -29,4 +28,4 @@ export const BLANCO_Y_NEGRO_MEDIA: Record<string, string> = {
   "img-7670": "https://cdn.shopify.com/s/files/1/1065/9482/8619/files/antaine-blancoynegro-img-7670.jpg?v=1784355881",
 };
 
-export const MEDIA: Record<string, string> = { sirat, aphex, cana, pipa, img1781, img0984, ...BLANCO_Y_NEGRO_MEDIA };
+export const MEDIA: Record<string, string> = { sirat, aphex, cana, img1781, img0984, ...BLANCO_Y_NEGRO_MEDIA };
