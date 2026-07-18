@@ -18,6 +18,32 @@ export type Post = {
 
 export const POSTS: Post[] = [
   {
+    slug: "why-black-and-white",
+    title: "Why Black and White?",
+    kicker: "Image · Studio Notes",
+    published: "18 July 2026",
+    iso: "2026-07-18",
+    byline: "Antaine Reilly",
+    hue: 40,
+    img: "zone-study",
+    dek: "Black and white gives thirty years of photographs one consistent skin — the moment, not the colour. But here's the honest number: the archive is fifty-fifty. Colour is coming.",
+    blocks: [
+      { t: "p", text: "People ask a version of the same question about the photographs that they ask about the synthesizers: why is everything black and white? Almost every image in the shop — the whole Blanco y Negro series — lives in monochrome, and it isn't an accident, and it isn't a filter. It's a decision I keep making, for the same reason, every time." },
+      { t: "p", text: "Black and white provides a consistent layer. Strip the colour away and every photograph speaks the same language: light, shadow, gesture, geometry. The eye goes straight to the moment — a face in a crowd, two people flat on the grass, a street being reclaimed — instead of being pulled around by whatever colours happened to be there when the shutter opened." },
+      { t: "h", text: "The Moment, Not the Colour" },
+      { t: "p", text: "Colour is loud. It dates itself — the palette of a decade's clothes, the cast of a particular film stock, the sodium orange of one city's streetlights. All of that is information, but most of the time it's information about everything except the thing that mattered: what was happening between the people in the frame. Monochrome removes the distraction and leaves the moment standing on its own. If a photograph still works in black and white, it works because of what it caught, not what it was wearing." },
+      { t: "h", text: "One Skin for Thirty Years" },
+      { t: "p", text: "For an archive like mine it matters even more. Anyone who has followed the unboxing knows the situation: thirty years and more than twenty moves left the work in glorious chaos — negatives, hard drives, prints, no order anyone could reconstruct — and I've been publishing it as it surfaces, shuffled, unlabelled, out of sequence. A photograph from a London squat party in 1999 hangs next to one from Asturias in 2025, and black and white is what lets them hang together. It gives the whole archive one consistent skin, so images taken decades and continents apart read as a single body of work rather than a scrapbook." },
+      { t: "h", text: "The Honest Number" },
+      { t: "p", text: "But I should be honest about what's actually in the boxes: this isn't a black-and-white archive. It's roughly fifty-fifty — half monochrome, half colour, shot that way across the same thirty years. And some moments simply are their colour. The painted truck. A Havana street at midday. A dancefloor at the exact temperature of its lights. Converting those to grey wouldn't purify them; it would delete half of what they are." },
+      { t: "p", text: "So there will be colour. A colour series is coming out of the boxes, and it will arrive the way everything arrives here: unlabelled, out of sequence, as it surfaces — into the Portal first, where members see each series before it goes anywhere else, and then to the shop alongside Blanco y Negro." },
+      { t: "h", text: "Choosing the Layer" },
+      { t: "p", text: "None of this makes black and white superior. It's a choice of layer — the same decision as choosing the dry signal over the reverb. Monochrome is the consistent layer, the one that holds a scattered archive together and keeps the attention on the moment. Colour is the exception that has to earn its place, frame by frame — and about half the archive has earned it." },
+      { t: "p", text: "That's why the shop is black and white first. And it's why it won't stay black and white only." },
+      { t: "sig", text: "—Antaine Reilly" },
+    ],
+  },
+  {
     slug: "why-i-make-electronic-music",
     title: "Why I Make Electronic Music",
     kicker: "Sound · Studio Notes",
