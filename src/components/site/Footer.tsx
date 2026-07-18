@@ -1,4 +1,4 @@
-import { BRAND, NAV } from "@/lib/site";
+import { BRAND, NAV, POLICIES } from "@/lib/site";
 import { Waveform } from "./primitives";
 
 export function Footer({ go }: { go: (p: string) => void }) {
@@ -26,12 +26,22 @@ export function Footer({ go }: { go: (p: string) => void }) {
             <ul className="grid gap-2 text-sm opacity-80">
               <li><a href={`mailto:${BRAND.email}`} className="link-underline">{BRAND.email}</a></li>
               <li><a href={`https://instagram.com/${BRAND.instagram}`} target="_blank" rel="noreferrer" className="link-underline">@{BRAND.instagram}</a></li>
+              <li><a href="https://www.lapipa.ai" target="_blank" rel="noreferrer" className="link-underline">lapipa.ai</a></li>
               <li><a href={BRAND.lapipa} target="_blank" rel="noreferrer" className="link-underline">lapipa.io</a></li>
               <li className="opacity-60">{BRAND.location}</li>
             </ul>
           </div>
         </div>
-        <div className="mt-12 flex flex-col justify-between gap-2 border-t border-[hsl(var(--bone))]/15 pt-5 font-mono text-[10px] tracking-label opacity-50 sm:flex-row">
+        <div className="mt-10 border-t border-[hsl(var(--bone))]/15 pt-5">
+          <ul className="flex flex-wrap gap-x-5 gap-y-2 font-mono text-[10px] tracking-label opacity-50">
+            {POLICIES.map((p) => (
+              <li key={p.label}>
+                <a href={p.url} target="_blank" rel="noreferrer" className="link-underline hover:opacity-100">{p.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="mt-6 flex flex-col justify-between gap-2 border-t border-[hsl(var(--bone))]/15 pt-5 font-mono text-[10px] tracking-label opacity-50 sm:flex-row">
           <span>© {new Date().getFullYear()} ANTAINE REILLY · ALL RIGHTS RESERVED</span>
           <span>ÉIRE ⁄ ESPAÑA · MADE WITH INTENT</span>
         </div>

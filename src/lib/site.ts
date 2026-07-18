@@ -150,3 +150,11 @@ export const UNBOXED = {
   title: "Unboxed: Three Decades Unpublished",
   body: "In 2025 I began releasing photographs that had been sitting in boxes and hard drives for decades — from the London street parties to Berlin's Tiergarten, from Tokyo's neon-lit alleys to Havana on election night 2016. Taken between meetings and after them, in whatever city the work had sent me to. Blanco y Negro is the first series.",
 };
+
+export const POLICIES: { label: string; url: string }[] = [
+  { label: "Refund policy", url: "https://checkout.shopify.com/106594828619/policies/63713411403.html" },
+  { label: "Shipping policy", url: "https://checkout.shopify.com/106594828619/policies/63713575243.html" },
+  { label: "Terms of service", url: "https://checkout.shopify.com/106594828619/policies/63713509707.html" },
+  { label: "Privacy policy", url: "https://checkout.shopify.com/106594828619/policies/63707971915.html" },
+  { label: "Contact information", url: "https://checkout.shopify.com/106594828619/policies/63713673547.html" },
+];
