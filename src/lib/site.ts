@@ -157,4 +157,5 @@ export const POLICIES: { label: string; url: string }[] = [
   { label: "Terms of service", url: "https://checkout.shopify.com/106594828619/policies/63713509707.html" },
   { label: "Privacy policy", url: "https://checkout.shopify.com/106594828619/policies/63707971915.html" },
   { label: "Contact information", url: "https://checkout.shopify.com/106594828619/policies/63713673547.html" },
+  { label: "Aviso legal", url: "https://checkout.shopify.com/106594828619/policies/63713804619.html" },
 ];
