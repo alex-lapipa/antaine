@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 import { createCheckout, type SFProduct } from "./shopify";
+import { trackEvent } from "./analytics";
 
 // --- Cart (backed by the Shopify Storefront API; checkout redirects to Shopify) ---
 export type CartLine = { product: SFProduct; qty: number };
@@ -48,6 +49,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       .map((l) => ({ variantId: l.product.variantId as string, quantity: l.qty }));
     if (!items.length) return;
     setCheckingOut(true);
+    trackEvent("checkout — handoff to Shopify");
     try {
       const url = await createCheckout(items);
       window.location.href = url; // hand off to Shopify's secure checkout
@@ -141,6 +143,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       /* private mode — session lives for the tab only */
     }
     registerMember(u.email, u.name, marketingConsent);
+    trackEvent("portal — sign-in");
     return { ok: true };
   };
   const signOut = () => {
