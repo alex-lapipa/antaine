@@ -303,7 +303,7 @@ function Tile({ p, onOpen, large = false }: { p: SFProduct; onOpen: () => void; 
         <h3 className={`font-display leading-tight ${large ? "text-3xl" : "text-xl"}`}>{p.title}</h3>
         <div className="shrink-0 font-mono text-[12px] text-[hsl(var(--muted-foreground))]">from {eur(from)}</div>
       </div>
-      <div className="mt-1 font-mono text-[10px] uppercase tracking-label text-[hsl(var(--muted-foreground))] opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+      <div className="mt-1 font-mono text-[10px] uppercase tracking-label text-[hsl(var(--muted-foreground))] opacity-0 transition-opacity duration-300 group-hover:opacity-100 max-lg:text-[11px] max-lg:opacity-60">
         View the work →
       </div>
     </button>
@@ -358,17 +358,17 @@ function ArtworkPage({ p, onClose, prev, next }: { p: SFProduct; onClose: () => 
     <div className="animate-rise pb-24 lg:pb-0">
       <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-8">
         <div className="flex items-center justify-between">
-          <button onClick={onClose} className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-label text-[hsl(var(--muted-foreground))] transition-colors hover:text-[hsl(var(--ink))]">
+          <button onClick={onClose} className="-my-3.5 inline-flex items-center gap-2 py-3.5 font-mono text-[11px] uppercase tracking-label text-[hsl(var(--muted-foreground))] transition-colors hover:text-[hsl(var(--ink))]">
             <ArrowLeft className="h-3.5 w-3.5" /> The Collection
           </button>
           <div className="flex items-center gap-4">
             {prev && (
-              <button onClick={prev} aria-label="Previous work" className="text-[hsl(var(--muted-foreground))] transition-colors hover:text-[hsl(var(--ink))]"><ArrowLeft className="h-4 w-4" /></button>
+              <button onClick={prev} aria-label="Previous work" className="-m-3.5 p-3.5 text-[hsl(var(--muted-foreground))] transition-colors hover:text-[hsl(var(--ink))]"><ArrowLeft className="h-4 w-4" /></button>
             )}
             {next && (
-              <button onClick={next} aria-label="Next work" className="text-[hsl(var(--muted-foreground))] transition-colors hover:text-[hsl(var(--ink))]"><ArrowRight className="h-4 w-4" /></button>
+              <button onClick={next} aria-label="Next work" className="-m-3.5 p-3.5 text-[hsl(var(--muted-foreground))] transition-colors hover:text-[hsl(var(--ink))]"><ArrowRight className="h-4 w-4" /></button>
             )}
-            <button onClick={onClose} aria-label="Close" className="text-[hsl(var(--muted-foreground))] transition-colors hover:text-[hsl(var(--ink))]"><X className="h-4 w-4" /></button>
+            <button onClick={onClose} aria-label="Close" className="-m-3.5 p-3.5 text-[hsl(var(--muted-foreground))] transition-colors hover:text-[hsl(var(--ink))]"><X className="h-4 w-4" /></button>
           </div>
         </div>
 
@@ -453,7 +453,7 @@ function ArtworkPage({ p, onClose, prev, next }: { p: SFProduct; onClose: () => 
               <Spec k="Delivery" v="5–10 days, tracked, ready to hang · ships worldwide" />
             </dl>
 
-            <p className="mt-8 font-mono text-[10px] leading-relaxed tracking-label text-[hsl(var(--muted-foreground))]">
+            <p className="mt-8 font-mono text-[10px] leading-relaxed tracking-label text-[hsl(var(--muted-foreground))] max-lg:text-[11px]">
               SECURE CHECKOUT VIA SHOPIFY · VISA / MASTERCARD / SHOP PAY · QUESTIONS — ALEX@RMTV.IO
             </p>
           </div>
@@ -486,7 +486,7 @@ function ArtworkPage({ p, onClose, prev, next }: { p: SFProduct; onClose: () => 
 function Spec({ k, v }: { k: string; v: string }) {
   return (
     <div className="flex gap-6 border-b border-[hsl(var(--border))] py-3">
-      <dt className="w-28 shrink-0 font-mono text-[10px] uppercase tracking-label text-[hsl(var(--muted-foreground))]">{k}</dt>
+      <dt className="w-28 shrink-0 font-mono text-[10px] uppercase tracking-label text-[hsl(var(--muted-foreground))] max-lg:text-[11px]">{k}</dt>
       <dd className="text-[13px] leading-relaxed">{v}</dd>
     </div>
   );
@@ -496,7 +496,7 @@ function ViewBtn({ active, onClick, children }: { active: boolean; onClick: () =
   return (
     <button
       onClick={onClick}
-      className={`rounded-sm border px-3 py-1.5 font-mono text-[10px] uppercase tracking-label transition-colors ${
+      className={`rounded-sm border px-3 py-1.5 font-mono text-[10px] uppercase tracking-label transition-colors max-lg:px-4 max-lg:py-2.5 max-lg:text-[11px] ${
         active ? "border-[hsl(var(--ink))] bg-[hsl(var(--ink))] text-[hsl(var(--bone))]" : "border-[hsl(var(--border))] hover:border-[hsl(var(--ink))]"
       }`}
     >

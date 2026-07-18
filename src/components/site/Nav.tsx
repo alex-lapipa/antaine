@@ -35,14 +35,14 @@ export function Nav({ page, go }: { page: string; go: (p: string) => void }) {
         <div className="flex items-center gap-3">
           <button
             onClick={() => setOpen(true)}
-            className="relative font-mono text-xs uppercase tracking-label hover:text-[hsl(var(--accent))]"
+            className="relative -m-2.5 p-2.5 font-mono text-xs uppercase tracking-label hover:text-[hsl(var(--accent))]"
           >
             Cart
             <span className="ml-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[hsl(var(--ink))] px-1 text-[10px] text-[hsl(var(--bone))]">
               {count}
             </span>
           </button>
-          <button className="md:hidden" onClick={() => setMobile((v) => !v)} aria-label="Menu">
+          <button className="-m-3 p-3 md:hidden" onClick={() => setMobile((v) => !v)} aria-label="Menu">
             {mobile ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
@@ -54,7 +54,7 @@ export function Nav({ page, go }: { page: string; go: (p: string) => void }) {
             <button
               key={n.key}
               onClick={() => { go(n.key); setMobile(false); }}
-              className={`py-2 text-left font-mono text-sm uppercase tracking-label ${
+              className={`py-3 text-left font-mono text-sm uppercase tracking-label ${
                 page === n.key ? "text-[hsl(var(--accent))]" : ""
               }`}
             >
