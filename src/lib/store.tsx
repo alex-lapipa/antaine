@@ -1,42 +1,72 @@
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
-import type { Product } from "./site";
+import { createCheckout, type SFProduct } from "./shopify";
 
-// --- Cart (in-memory v0; swap for Shopify Storefront cart mutations) ---
-export type CartLine = { product: Product; qty: number };
+// --- Cart (backed by the Shopify Storefront API; checkout redirects to Shopify) ---
+export type CartLine = { product: SFProduct; qty: number };
 type CartCtx = {
   lines: CartLine[];
   count: number;
   subtotal: number;
-  add: (p: Product) => void;
-  remove: (handle: string) => void;
-  setQty: (handle: string, qty: number) => void;
+  add: (p: SFProduct) => void;
+  remove: (id: string) => void;
+  setQty: (id: string, qty: number) => void;
   clear: () => void;
   open: boolean;
   setOpen: (v: boolean) => void;
+  checkout: () => Promise<void>;
+  checkingOut: boolean;
+  checkoutError: string | null;
 };
 const Cart = createContext<CartCtx | null>(null);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [lines, setLines] = useState<CartLine[]>([]);
   const [open, setOpen] = useState(false);
+  const [checkingOut, setCheckingOut] = useState(false);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
-  const add = useCallback((p: Product) => {
+  const add = useCallback((p: SFProduct) => {
     setLines((prev) => {
-      const found = prev.find((l) => l.product.handle === p.handle);
-      if (found) return prev.map((l) => l.product.handle === p.handle ? { ...l, qty: l.qty + 1 } : l);
+      const found = prev.find((l) => l.product.id === p.id);
+      if (found) return prev.map((l) => (l.product.id === p.id ? { ...l, qty: l.qty + 1 } : l));
       return [...prev, { product: p, qty: 1 }];
     });
     setOpen(true);
   }, []);
-  const remove = useCallback((handle: string) => setLines((p) => p.filter((l) => l.product.handle !== handle)), []);
-  const setQty = useCallback((handle: string, qty: number) =>
-    setLines((p) => p.flatMap((l) => l.product.handle === handle ? (qty <= 0 ? [] : [{ ...l, qty }]) : [l])), []);
+  const remove = useCallback((id: string) => setLines((p) => p.filter((l) => l.product.id !== id)), []);
+  const setQty = useCallback(
+    (id: string, qty: number) =>
+      setLines((p) => p.flatMap((l) => (l.product.id === id ? (qty <= 0 ? [] : [{ ...l, qty }]) : [l]))),
+    [],
+  );
   const clear = useCallback(() => setLines([]), []);
+
+  const checkout = useCallback(async () => {
+    setCheckoutError(null);
+    const items = lines
+      .filter((l) => l.product.variantId)
+      .map((l) => ({ variantId: l.product.variantId as string, quantity: l.qty }));
+    if (!items.length) return;
+    setCheckingOut(true);
+    try {
+      const url = await createCheckout(items);
+      window.location.href = url; // hand off to Shopify's secure checkout
+    } catch (e) {
+      setCheckoutError(e instanceof Error ? e.message : "Checkout failed. Please try again.");
+      setCheckingOut(false);
+    }
+  }, [lines]);
 
   const count = lines.reduce((n, l) => n + l.qty, 0);
   const subtotal = lines.reduce((n, l) => n + l.qty * l.product.priceEUR, 0);
 
-  return <Cart.Provider value={{ lines, count, subtotal, add, remove, setQty, clear, open, setOpen }}>{children}</Cart.Provider>;
+  return (
+    <Cart.Provider
+      value={{ lines, count, subtotal, add, remove, setQty, clear, open, setOpen, checkout, checkingOut, checkoutError }}
+    >
+      {children}
+    </Cart.Provider>
+  );
 }
 export function useCart() {
   const c = useContext(Cart);
