@@ -147,8 +147,8 @@ export const JOURNEY: Era[] = [
 ];
 
 export const UNBOXED = {
-  title: "Unboxed: Three Decades Unpublished",
-  body: "In 2025 I began releasing photographs that had been sitting in boxes and hard drives for decades — from the London street parties to Berlin's Tiergarten, from Tokyo's neon-lit alleys to Havana on election night 2016. Taken between meetings and after them, in whatever city the work had sent me to. Blanco y Negro is the first series.",
+  title: "Unboxed: Thirty Years in the Making",
+  body: "When I left my hometown in 1995 I made myself one promise: wherever I went, the camera went too. For almost thirty years — London, Berlin, Barcelona, Tokyo, Havana, every city the work sent me to — I photographed the people, the places, the moments passing in front of me, and put it all away in boxes and hard drives. In my twenties I thought of it as a message in a bottle, sent forward to whoever I would become. None of it was ever meant to be published. In 2023 I moved home. In 2025 I started opening the boxes — and somewhere in the unpacking it became clear that thirty years of photographs and memories were worth more shared than stored. Unboxed is that process, released as it happens. Blanco y Negro is the first series.",
 };
 
 export const POLICIES: { label: string; url: string }[] = [

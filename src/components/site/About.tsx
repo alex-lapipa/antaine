@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BRAND, DISCIPLINES, JOURNEY, UNBOXED } from "@/lib/site";
+import { BRAND, DISCIPLINES, JOURNEY } from "@/lib/site";
 import { Img, Mark } from "./primitives";
 import { MEDIA } from "@/assets/media";
 import { ArrowRight } from "lucide-react";
@@ -40,11 +40,6 @@ export function About() {
                 </div>
               ))}
             </div>
-          </div>
-
-          <div className="mt-8 border border-[hsl(var(--ink))] bg-[hsl(var(--card))] p-6">
-            <div className="font-mono text-[10px] tracking-label text-[hsl(var(--accent))]">{UNBOXED.title.toUpperCase()}</div>
-            <p className="mt-2 text-sm leading-relaxed">{UNBOXED.body}</p>
           </div>
 
           <div className="mt-10 flex flex-wrap gap-x-8 gap-y-2 font-mono text-[11px] tracking-label text-[hsl(var(--muted-foreground))]">
