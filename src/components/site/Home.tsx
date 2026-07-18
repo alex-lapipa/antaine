@@ -48,8 +48,8 @@ export function Home({ go }: { go: (p: string) => void }) {
             <button onClick={() => go("about")} className="group block w-full text-left">
               {/* Framed like the collection: black aluminium frame + museum mount */}
               <div className="bg-[#101011] p-[10px] shadow-[0_14px_34px_-12px_rgba(0,0,0,0.45)] transition-transform duration-500 ease-out group-hover:-translate-y-1">
-                <div className="bg-[#f7f5f0] p-[7%]">
-                  <div className="outline outline-1 outline-[#d6d3cb]">
+                <div className="bg-[#f2ecdf] p-[7%]">
+                  <div className="outline outline-1 outline-[#d8d0bd]">
                     <div className="relative aspect-[3/4] overflow-hidden">
                       <img src={MEDIA.portrait} alt="Antaine Reilly — self portrait" className="h-full w-full object-cover" />
                     </div>
