@@ -43,6 +43,8 @@ export function Footer({ go }: { go: (p: string) => void }) {
             <li>
               <button onClick={openConsentSettings} className="link-underline hover:opacity-100">Cookie settings</button>
             </li>
+            <li><a href="/prints/" className="link-underline hover:opacity-100">Print shop</a></li>
+            <li><a href="/trade/" className="link-underline hover:opacity-100">Trade &amp; hospitality</a></li>
           </ul>
         </div>
         <div className="mt-6 flex flex-col justify-between gap-2 border-t border-[hsl(var(--bone))]/15 pt-5 font-mono text-[10px] tracking-label opacity-50 sm:flex-row">

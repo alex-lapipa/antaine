@@ -10,6 +10,9 @@ function inject(): void {
   if (loaded || typeof document === "undefined") return;
   const domain = import.meta.env.VITE_PLAUSIBLE_DOMAIN as string | undefined;
   if (!domain) return; // not configured yet — nothing loads
+  // Honour global privacy signals worldwide (GPC / Do Not Track): never load if set.
+  const nav = navigator as Navigator & { globalPrivacyControl?: boolean };
+  if (nav.globalPrivacyControl === true || nav.doNotTrack === "1") return;
   const src =
     (import.meta.env.VITE_PLAUSIBLE_SRC as string | undefined) ||
     "https://plausible.io/js/script.js";
