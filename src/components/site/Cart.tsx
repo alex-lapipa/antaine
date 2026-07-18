@@ -72,6 +72,12 @@ export function Cart() {
               >
                 {checkingOut ? "Redirecting to checkout…" : "Checkout"}
               </button>
+              <p className="mt-3 text-center font-mono text-[10px] tracking-label text-[hsl(var(--muted-foreground))] max-md:text-[11px]">
+                Printed & framed to order · ships in 5–10 days, tracked
+              </p>
+              <p className="mt-1 text-center font-mono text-[10px] uppercase tracking-label text-[hsl(var(--muted-foreground))]/80 max-md:text-[11px]">
+                Visa · Mastercard · Amex · Shop Pay · Apple Pay · G Pay
+              </p>
             </div>
           </>
         )}

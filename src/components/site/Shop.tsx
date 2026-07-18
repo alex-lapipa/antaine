@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useCart, eur } from "@/lib/store";
 import { fetchProducts, shopifyReady, type SFProduct, type SFVariant } from "@/lib/shopify";
-import { Plus, Check, ArrowLeft, ArrowRight, X } from "lucide-react";
+import { Plus, Check, ArrowLeft, ArrowRight, ArrowUp, X } from "lucide-react";
 
 /*
  * The Collection — a gallery, not a grid.
@@ -19,6 +19,29 @@ const RHYTHM = [
   { col: "lg:col-start-1 lg:col-span-4", top: "lg:mt-6" },
   { col: "lg:col-start-6 lg:col-span-6", top: "lg:-mt-16" },
 ];
+
+// ---- Mobile chapters ----------------------------------------------------
+// The archive read as chapters, not inventory. Derived from Shopify tags at
+// render time (Notion → Shopify stays the catalogue truth; this is a render
+// detail). Mobile/tablet only — the desktop mosaic is untouched.
+const CHAPTERS = [
+  { key: "london", title: "London", sub: "The years of the street parties" },
+  { key: "berlin", title: "Berlin", sub: "One world, one love" },
+  { key: "night", title: "The Night", sub: "Clubs, bars, after hours" },
+  { key: "travels", title: "The Travels", sub: "Cities in between" },
+  { key: "stills", title: "Stills & Signs", sub: "Objects, details, quiet portraits" },
+] as const;
+type ChapterKey = (typeof CHAPTERS)[number]["key"];
+
+function chapterFor(p: SFProduct): ChapterKey {
+  const t = p.tags.map((x) => x.toLowerCase());
+  const has = (...ks: string[]) => ks.some((k) => t.includes(k));
+  if (has("london", "hackney", "willesden", "reclaim-the-streets")) return "london";
+  if (has("berlin", "love-parade")) return "berlin";
+  if (has("toronto", "canada", "cuba", "havana", "brooklyn", "new-york", "asturias", "travel", "road-trip", "cityscape", "urban")) return "travels";
+  if (has("barcelona", "club", "nightlife", "night", "bar", "festival")) return "night";
+  return "stills";
+}
 
 function handleFromHash(): string | null {
   const h = window.location.hash.replace("#", "");
@@ -74,6 +97,15 @@ export function Shop() {
   const current = sel ? products.find((p) => p.handle === sel) ?? null : null;
   const currentIdx = current ? list.findIndex((p) => p.handle === current.handle) : -1;
 
+  // Mobile chapters — grouped view of the same list, in chapter order.
+  const chapters = useMemo(
+    () =>
+      CHAPTERS.map((c) => ({ ...c, items: list.filter((p) => chapterFor(p) === c.key) })).filter(
+        (c) => c.items.length > 0,
+      ),
+    [list],
+  );
+
   if (current) {
     return (
       <ArtworkPage
@@ -126,14 +158,31 @@ export function Shop() {
       )}
 
       {status === "ready" && list.length > 0 && (
-        <div className="mt-16 lg:mt-28">
-          {/* Mobile / tablet: single generous column with alternating alignment */}
-          <div className="flex flex-col gap-16 lg:hidden">
-            {list.map((p, i) => (
-              <div key={p.id} className={i % 3 === 1 ? "self-end w-[88%]" : i % 3 === 2 ? "self-start w-[88%]" : "w-full"}>
-                <Tile p={p} onOpen={() => open(p.handle)} />
-              </div>
+        <div className="mt-12 lg:mt-28">
+          {/* Mobile / tablet: the same works, hung as chapters */}
+          <div className="lg:hidden">
+            <ChapterStrip chapters={chapters} />
+            {chapters.map((c, ci) => (
+              <section key={c.key} id={`chapter-${c.key}`} className="scroll-mt-32 pt-12 first:pt-8">
+                <header>
+                  <div className="font-mono text-[11px] tracking-label text-[hsl(var(--accent))]">
+                    {String(ci + 1).padStart(2, "0")} — {c.items.length} {c.items.length === 1 ? "WORK" : "WORKS"}
+                  </div>
+                  <h2 className="mt-1 font-display text-3xl font-light tracking-tightest">{c.title}</h2>
+                  <p className="mt-1 font-mono text-[11px] tracking-label text-[hsl(var(--muted-foreground))]">
+                    {c.sub.toUpperCase()}
+                  </p>
+                </header>
+                <div className="mt-8 flex flex-col gap-16">
+                  {c.items.map((p, i) => (
+                    <div key={p.id} className={i % 3 === 1 ? "self-end w-[88%]" : i % 3 === 2 ? "self-start w-[88%]" : "w-full"}>
+                      <Tile p={p} onOpen={() => open(p.handle)} />
+                    </div>
+                  ))}
+                </div>
+              </section>
             ))}
+            <BackToTop count={list.length} />
           </div>
           {/* Desktop: mosaic rhythm on a 12-col grid */}
           <div className="hidden lg:grid lg:grid-cols-12 lg:gap-x-8">
@@ -153,6 +202,78 @@ export function Shop() {
         Museum-quality matte paper · Black aluminium frame · Made to order, ships in 5–10 days · Worldwide
       </p>
     </div>
+  );
+}
+
+/* ---------- Mobile chapter navigation ---------- */
+
+function ChapterStrip({ chapters }: { chapters: { key: string; title: string; items: SFProduct[] }[] }) {
+  const [active, setActive] = useState<string>(chapters[0]?.key ?? "");
+
+  useEffect(() => {
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        let cur = chapters[0]?.key ?? "";
+        for (const c of chapters) {
+          const el = document.getElementById(`chapter-${c.key}`);
+          if (el && el.getBoundingClientRect().top <= 140) cur = c.key;
+        }
+        setActive(cur);
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => { window.removeEventListener("scroll", onScroll); cancelAnimationFrame(raf); };
+  }, [chapters]);
+
+  const jump = (key: string) => {
+    document.getElementById(`chapter-${key}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  if (chapters.length < 2) return null;
+  return (
+    <nav
+      aria-label="Chapters"
+      className="no-scrollbar sticky top-[45px] z-30 -mx-4 overflow-x-auto border-y border-[hsl(var(--border))] bg-[hsl(var(--background))]/90 px-4 backdrop-blur-md sm:-mx-8 sm:px-8"
+    >
+      <div className="flex w-max gap-2 py-2.5">
+        {chapters.map((c) => (
+          <button
+            key={c.key}
+            onClick={() => jump(c.key)}
+            className={`whitespace-nowrap rounded-sm border px-3.5 py-2.5 font-mono text-[11px] uppercase tracking-label transition-colors ${
+              active === c.key
+                ? "border-[hsl(var(--ink))] bg-[hsl(var(--ink))] text-[hsl(var(--bone))]"
+                : "border-[hsl(var(--border))] text-[hsl(var(--muted-foreground))]"
+            }`}
+          >
+            {c.title} · {c.items.length}
+          </button>
+        ))}
+      </div>
+    </nav>
+  );
+}
+
+function BackToTop({ count }: { count: number }) {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setShow(window.scrollY > 1600);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  if (!show) return null;
+  return (
+    <button
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      aria-label={`Back to top — ${count} works`}
+      className="fixed bottom-5 right-4 z-30 inline-flex items-center gap-2 rounded-full bg-[hsl(var(--ink))]/90 px-4 py-3 font-mono text-[11px] uppercase tracking-label text-[hsl(var(--bone))] shadow-lg backdrop-blur-sm"
+    >
+      <ArrowUp className="h-3.5 w-3.5" /> Top
+    </button>
   );
 }
 
@@ -197,6 +318,17 @@ function ArtworkPage({ p, onClose, prev, next }: { p: SFProduct; onClose: () => 
   const [added, setAdded] = useState(false);
   const [view, setView] = useState<"framed" | "print">("framed");
 
+  // Mobile sticky buy bar — visible whenever the inline CTA is off-screen.
+  const ctaRef = useRef<HTMLButtonElement | null>(null);
+  const [ctaInView, setCtaInView] = useState(false);
+  useEffect(() => {
+    const el = ctaRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(([e]) => setCtaInView(e.isIntersecting), { rootMargin: "0px 0px -56px 0px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [p.id]);
+
   useEffect(() => { setVariantId(null); setAdded(false); setView("framed"); window.scrollTo({ top: 0 }); }, [p.id]);
 
   const multi = p.variants.length > 1;
@@ -209,8 +341,21 @@ function ArtworkPage({ p, onClose, prev, next }: { p: SFProduct; onClose: () => 
   const print = p.images.find((im) => im.url !== p.image)?.url ?? null;
   const shown = view === "print" && print ? print : framed;
 
+  const addSelected = () => {
+    if (!sel) return;
+    add({
+      ...p,
+      id: sel.id,
+      variantId: sel.id,
+      priceEUR: sel.priceEUR,
+      title: multi ? `${p.title} — ${sel.title}` : p.title,
+    });
+    setAdded(true);
+    setTimeout(() => setAdded(false), 1400);
+  };
+
   return (
-    <div className="animate-rise">
+    <div className="animate-rise pb-24 lg:pb-0">
       <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-8">
         <div className="flex items-center justify-between">
           <button onClick={onClose} className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-label text-[hsl(var(--muted-foreground))] transition-colors hover:text-[hsl(var(--ink))]">
@@ -284,19 +429,9 @@ function ArtworkPage({ p, onClose, prev, next }: { p: SFProduct; onClose: () => 
             </div>
 
             <button
+              ref={ctaRef}
               disabled={!p.availableForSale || !sel}
-              onClick={() => {
-                if (!sel) return;
-                add({
-                  ...p,
-                  id: sel.id,
-                  variantId: sel.id,
-                  priceEUR: sel.priceEUR,
-                  title: multi ? `${p.title} — ${sel.title}` : p.title,
-                });
-                setAdded(true);
-                setTimeout(() => setAdded(false), 1400);
-              }}
+              onClick={addSelected}
               className={`mt-6 inline-flex w-full items-center justify-center gap-2 rounded-sm border py-3.5 font-mono text-[12px] uppercase tracking-label transition-colors ${
                 !p.availableForSale
                   ? "cursor-not-allowed border-[hsl(var(--border))] text-[hsl(var(--muted-foreground))]"
@@ -324,6 +459,26 @@ function ArtworkPage({ p, onClose, prev, next }: { p: SFProduct; onClose: () => 
           </div>
         </div>
       </div>
+
+      {/* Mobile sticky buy bar — thumb-zone add-to-cart while the inline CTA is off-screen */}
+      {p.availableForSale && sel && !ctaInView && (
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[hsl(var(--border))] bg-[hsl(var(--background))]/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md lg:hidden">
+          <div className="flex items-center justify-between gap-4 px-4 py-3">
+            <div className="min-w-0">
+              <div className="truncate font-display text-sm leading-tight">{p.title}</div>
+              <div className="font-mono text-[11px] tracking-label text-[hsl(var(--muted-foreground))]">
+                {multi ? `${sel.title} · ` : ""}{eur(sel.priceEUR)}
+              </div>
+            </div>
+            <button
+              onClick={addSelected}
+              className="inline-flex shrink-0 items-center gap-2 rounded-sm bg-[hsl(var(--ink))] px-5 py-3 font-mono text-[11px] uppercase tracking-label text-[hsl(var(--bone))]"
+            >
+              {added ? (<><Check className="h-4 w-4" /> Added</>) : (<>Add to cart <Plus className="h-4 w-4" /></>)}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
