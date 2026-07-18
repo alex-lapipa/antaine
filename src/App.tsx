@@ -15,7 +15,7 @@ const PAGES = new Set(["home", "work", "journal", "shop", "portal", "about"]);
 
 function Shell() {
   const [page, setPage] = useState<string>(() => {
-    const h = window.location.hash.replace("#", "");
+    const h = window.location.hash.replace("#", "").split("/")[0];
     return PAGES.has(h) ? h : "home";
   });
   const [workId, setWorkId] = useState<string | null>(null);
@@ -28,7 +28,7 @@ function Shell() {
 
   useEffect(() => {
     const onHash = () => {
-      const h = window.location.hash.replace("#", "");
+      const h = window.location.hash.replace("#", "").split("/")[0];
       if (PAGES.has(h)) setPage(h);
     };
     window.addEventListener("hashchange", onHash);

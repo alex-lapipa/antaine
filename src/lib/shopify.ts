@@ -35,10 +35,12 @@ export type SFProduct = {
   handle: string;
   title: string;
   description: string;
+  descriptionHtml: string;
   productType: string;
   tags: string[];
   image: string | null;
   imageAlt: string | null;
+  images: { url: string; alt: string | null }[];
   priceEUR: number;
   currency: string;
   variantId: string | null;
@@ -54,10 +56,12 @@ const PRODUCTS_QUERY = /* GraphQL */ `
         handle
         title
         description
+        descriptionHtml
         productType
         tags
         availableForSale
         featuredImage { url altText }
+        images(first: 4) { nodes { url altText } }
         priceRange { minVariantPrice { amount currencyCode } }
         variants(first: 10) { nodes { id title availableForSale price { amount } } }
       }
@@ -70,10 +74,12 @@ type RawProduct = {
   handle: string;
   title: string;
   description: string | null;
+  descriptionHtml: string | null;
   productType: string | null;
   tags: string[] | null;
   availableForSale: boolean;
   featuredImage: { url: string; altText: string | null } | null;
+  images: { nodes: { url: string; altText: string | null }[] };
   priceRange: { minVariantPrice: { amount: string; currencyCode: string } };
   variants: { nodes: { id: string; title: string; availableForSale: boolean; price: { amount: string } }[] };
 };
@@ -85,10 +91,12 @@ export async function fetchProducts(first = 100): Promise<SFProduct[]> {
     handle: n.handle,
     title: n.title,
     description: n.description ?? "",
+    descriptionHtml: n.descriptionHtml ?? "",
     productType: n.productType ?? "",
     tags: n.tags ?? [],
     image: n.featuredImage?.url ?? null,
     imageAlt: n.featuredImage?.altText ?? null,
+    images: (n.images?.nodes ?? []).map((im) => ({ url: im.url, alt: im.altText ?? null })),
     priceEUR: Number(n.priceRange?.minVariantPrice?.amount ?? 0),
     currency: n.priceRange?.minVariantPrice?.currencyCode ?? "EUR",
     variantId: n.variants?.nodes?.[0]?.id ?? null,
