@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useCart, eur } from "@/lib/store";
-import { fetchProducts, shopifyReady, type SFProduct, type SFVariant } from "@/lib/shopify";
+import { fetchProducts, shopifyReady, sfSrcSet, type SFProduct, type SFVariant } from "@/lib/shopify";
 import { Plus, Check, ArrowLeft, ArrowRight, ArrowUp, X } from "lucide-react";
 
 /*
@@ -285,8 +285,11 @@ function Tile({ p, onOpen, large = false }: { p: SFProduct; onOpen: () => void; 
         {p.image ? (
           <img
             src={p.image}
+            srcSet={sfSrcSet(p.image)}
+            sizes="(min-width: 1024px) 50vw, 100vw"
             alt={p.imageAlt ?? p.title}
             loading="lazy"
+            decoding="async"
             className="aspect-square w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]"
           />
         ) : (
@@ -376,7 +379,16 @@ function ArtworkPage({ p, onClose, prev, next }: { p: SFProduct; onClose: () => 
           {/* Image column */}
           <div className="lg:sticky lg:top-24 lg:self-start">
             <div className="overflow-hidden edge-hairline bg-[hsl(var(--card))]">
-              {shown && <img src={shown} alt={p.imageAlt ?? p.title} className="w-full object-contain" />}
+              {shown && (
+                <img
+                  src={shown}
+                  srcSet={sfSrcSet(shown)}
+                  sizes="(min-width: 1024px) 58vw, 100vw"
+                  alt={p.imageAlt ?? p.title}
+                  decoding="async"
+                  className={`w-full object-contain ${view === "framed" ? "aspect-square object-cover" : ""}`}
+                />
+              )}
             </div>
             {print && (
               <div className="mt-3 flex gap-2">

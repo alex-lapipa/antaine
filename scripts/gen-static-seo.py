@@ -242,7 +242,7 @@ for handle,title,image,desc,price in DATA:
 <div class="wrap">
 <div class="crumb"><a href="{SITE}/">Home</a> / <a href="/prints/">Prints</a> / {html.escape(title)}</div>
 <div class="pdp">
-  <div class="frame"><img src="{image}" alt="{html.escape(title)} — framed black &amp; white photograph by Antaine Reilly shown in an interior" width="1000" height="750" loading="eager"></div>
+  <div class="frame"><img src="{image}&width=1024" srcset="{image}&width=480 480w, {image}&width=768 768w, {image}&width=1024 1024w" sizes="(max-width:860px) 100vw, 55vw" alt="{html.escape(title)} — framed black &amp; white photograph by Antaine Reilly shown in an interior" width="1000" height="750" loading="eager"></div>
   <div>
     <div class="mono">Signed limited-edition photograph</div>
     <h1 class="title display">{html.escape(title)}</h1>
@@ -264,7 +264,7 @@ for handle,title,image,desc,price in DATA:
 # ---- prints index ----
 idx_canonical=f"{SITE}/prints/"
 cards_html="".join(
-    f'<a class="card" href="/prints/{h}/"><div class="ph"><img src="{im}" alt="{html.escape(t)} — B&amp;W photograph print by Antaine Reilly" loading="lazy"></div><h3>{html.escape(t)}</h3><div class="p">{pl}</div></a>'
+    f'<a class="card" href="/prints/{h}/"><div class="ph"><img src="{im}&width=480" srcset="{im}&width=360 360w, {im}&width=480 480w, {im}&width=768 768w" sizes="(max-width:640px) 100vw, 25vw" alt="{html.escape(t)} — B&amp;W photograph print by Antaine Reilly" loading="lazy"></div><h3>{html.escape(t)}</h3><div class="p">{pl}</div></a>'
     for h,t,im,pl in index_cards)
 idx_jsonld={"@context":"https://schema.org","@graph":[
     {"@type":"CollectionPage","@id":idx_canonical+"#page","name":"Black & White Photography Prints","url":idx_canonical,

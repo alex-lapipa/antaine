@@ -132,6 +132,31 @@ export async function createCheckout(lines: { variantId: string; quantity: numbe
   return url;
 }
 
+// ---- Responsive Shopify CDN images --------------------------------------
+// Shopify's CDN resizes (and auto-negotiates WebP/AVIF) when a width param is
+// present. Non-Shopify URLs pass through untouched.
+export function sfImg(url: string, width: number): string {
+  try {
+    const u = new URL(url);
+    if (!u.hostname.endsWith("cdn.shopify.com")) return url;
+    u.searchParams.set("width", String(width));
+    return u.toString();
+  } catch {
+    return url;
+  }
+}
+
+export function sfSrcSet(url: string | null, widths: number[] = [360, 480, 768, 1024]): string | undefined {
+  if (!url) return undefined;
+  try {
+    const u = new URL(url);
+    if (!u.hostname.endsWith("cdn.shopify.com")) return undefined;
+    return widths.map((w) => `${sfImg(url, w)} ${w}w`).join(", ");
+  } catch {
+    return undefined;
+  }
+}
+
 // Stable pseudo-hue (0–359) from a handle, for the generated-plate fallback
 // used when a product has no photo — keeps the studio look consistent.
 export function hueFor(handle: string): number {

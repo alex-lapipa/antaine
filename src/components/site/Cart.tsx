@@ -1,6 +1,6 @@
 import { useCart, eur } from "@/lib/store";
 import { Visual } from "./primitives";
-import { hueFor } from "@/lib/shopify";
+import { hueFor, sfImg } from "@/lib/shopify";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Minus, Plus, X } from "lucide-react";
 
@@ -28,7 +28,7 @@ export function Cart() {
                   <div className="relative h-20 w-20 shrink-0 edge-hairline">
                     <Visual
                       img={l.product.image ? l.product.handle : undefined}
-                      media={l.product.image ? { [l.product.handle]: l.product.image } : undefined}
+                      media={l.product.image ? { [l.product.handle]: sfImg(l.product.image, 160) } : undefined}
                       hue={hueFor(l.product.handle)}
                       seed={l.product.handle}
                       fit="cover"
