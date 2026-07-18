@@ -128,6 +128,34 @@ function registerMember(email: string, name: string, marketing: boolean) {
   });
 }
 
+/** Submit an enquiry to the sealed Supabase RPC (About form). */
+export async function submitEnquiry(
+  name: string,
+  email: string,
+  note: string,
+): Promise<{ ok: boolean; error?: string }> {
+  try {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/rpc/enquiry_submit`, {
+      method: "POST",
+      headers: {
+        apikey: SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ p_name: name, p_email: email, p_note: note }),
+    });
+    if (r.ok) return { ok: true };
+    const body = (await r.json().catch(() => null)) as { message?: string } | null;
+    const msg = body?.message ?? "";
+    if (msg.includes("invalid email")) return { ok: false, error: "Enter a valid email." };
+    if (msg.includes("missing fields")) return { ok: false, error: "Name, email and a note are all needed." };
+    if (msg.includes("too many")) return { ok: false, error: "Too many messages today — email me directly instead." };
+    return { ok: false, error: "Could not send right now — try again, or email me directly." };
+  } catch {
+    return { ok: false, error: "Could not send right now — try again, or email me directly." };
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthCtx["user"]>(() => loadSession());
   const signIn: AuthCtx["signIn"] = (email, code, marketingConsent = false) => {
