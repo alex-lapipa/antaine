@@ -79,30 +79,44 @@ export const PRODUCTS: Product[] = [
 
 // ---- Portal content (gated) --------------------------------------------
 
-export type LibraryItem = { id: string; title: string; format: string; size: string; added: string };
-export const LIBRARY: LibraryItem[] = [
-  { id: "estuary-stems", title: "Estuary — full stems", format: "WAV / 24-bit", size: "1.2 GB", added: "Mar 2025" },
-  { id: "tidal-recordings", title: "Tidal field recordings", format: "WAV pack", size: "640 MB", added: "Feb 2025" },
-  { id: "low-signal-patches", title: "Low Signal — patch archive", format: "VCV / Eurorack", size: "48 MB", added: "Jan 2025" },
-  { id: "greylight-luts", title: "Greylight — duotone LUTs", format: ".cube ×6", size: "12 MB", added: "Dec 2024" },
+// The Unboxed tapes. Streaming = stream-optimised MP3 (V0 ~245 kbps) on the project CDN,
+// range-served so it seeks without downloading the whole file. Master = the original file in
+// Supabase Storage ("TRACKS BY ANTAINE", public), served with a forced-download filename.
+export type Track = {
+  n: string;            // "01"
+  title: string;        // "Unboxed 01"
+  duration: number;     // seconds
+  stream: string;       // CDN mp3 — for the player
+  master: string;       // original file — for download
+  masterFormat: string; // human label, e.g. "WAV · 59 MB"
+};
+
+const MASTER_BASE = "https://lxeuxyieicluzgikflzx.supabase.co/storage/v1/object/public/TRACKS%20BY%20ANTAINE";
+const CDN = "https://cdn.shopify.com/s/files/1/1065/9482/8619/files";
+
+export const UNBOXED_TRACKS: Track[] = [
+  { n: "01", title: "Unboxed 01", duration: 322, stream: `${CDN}/antaine-unboxed-01.mp3?v=1784389456`, master: `${MASTER_BASE}/UNBOXED_000.wav?download=antaine-unboxed-01.wav`, masterFormat: "WAV · 59 MB" },
+  { n: "02", title: "Unboxed 02", duration: 382, stream: `${CDN}/antaine-unboxed-02.mp3?v=1784389456`, master: `${MASTER_BASE}/UNBOXED_001.wav?download=antaine-unboxed-02.wav`, masterFormat: "WAV · 70 MB" },
+  { n: "03", title: "Unboxed 03", duration: 382, stream: `${CDN}/antaine-unboxed-03.mp3?v=1784389456`, master: `${MASTER_BASE}/UNBOXED_002.wav?download=antaine-unboxed-03.wav`, masterFormat: "WAV · 70 MB" },
+  { n: "04", title: "Unboxed 04", duration: 265, stream: `${CDN}/antaine-unboxed-04.mp3?v=1784389456`, master: `${MASTER_BASE}/UNBOXED_003.wav?download=antaine-unboxed-04.wav`, masterFormat: "WAV · 49 MB" },
+  { n: "05", title: "Unboxed 05", duration: 382, stream: `${CDN}/antaine-unboxed-05.mp3?v=1784389456`, master: `${MASTER_BASE}/UNBOXED_004.wav?download=antaine-unboxed-05.wav`, masterFormat: "WAV · 70 MB" },
+  { n: "06", title: "Unboxed 06", duration: 400, stream: `${CDN}/antaine-unboxed-06.mp3?v=1784389455`, master: `${MASTER_BASE}/UNBOXED_005.wav?download=antaine-unboxed-06.wav`, masterFormat: "WAV · 74 MB" },
+  { n: "07", title: "Unboxed 07", duration: 382, stream: `${CDN}/antaine-unboxed-07.mp3?v=1784389456`, master: `${MASTER_BASE}/UNBOXED_006.wav?download=antaine-unboxed-07.wav`, masterFormat: "WAV · 70 MB" },
+  { n: "08", title: "Unboxed 08", duration: 520, stream: `${CDN}/antaine-unboxed-08.mp3?v=1784389455`, master: `${MASTER_BASE}/UNBOXED_007.mp3?download=antaine-unboxed-08.mp3`, masterFormat: "MP3 · 12 MB" },
+  { n: "09", title: "Unboxed 09", duration: 360, stream: `${CDN}/antaine-unboxed-09.mp3?v=1784389037`, master: `${MASTER_BASE}/UNBOXED_008.mp3?download=antaine-unboxed-09.mp3`, masterFormat: "MP3 · 8 MB" },
 ];
+
+export const UNBOXED_SOUND = {
+  kicker: "The tapes",
+  title: "Unboxed — the sound",
+  body: "Unboxed was never only photographs. The same thirty years that filled the boxes filled hard drives with sound — sessions cut in the cities the work sent me to, most of it mixed for no one but me. These are the tapes, opened the way the pictures are: no chronology, no titles worth the name, just Unboxed 01 through 09 in the order they surfaced. Stream them here; pull the master if you want the full-resolution file to keep.",
+};
 
 export type Dispatch = { id: string; date: string; title: string; body: string };
 export const DISPATCHES: Dispatch[] = [
-  { id: "d1", date: "2025 · 03", title: "On leaving things running", body: "Half of Field Notes is machines I forgot to turn off. The room does the composing; I just decide when to stop recording." },
-  { id: "d2", date: "2025 · 02", title: "The estuary, tuned", body: "Six weeks matching oscillator drift to the tide table. The water was never once in tune with itself, which turned out to be the point." },
-  { id: "d3", date: "2025 · 01", title: "A speaker made of concrete", body: "It weighs eight kilos and it will not resonate, which is the whole idea. Notes toward Concrete Monitor 02." },
-];
-
-export type Commission = {
-  id: string; client: string; title: string; kind: string;
-  status: "brief" | "in-progress" | "review" | "delivered";
-  updated: string; progress: number; files: number;
-};
-export const COMMISSIONS: Commission[] = [
-  { id: "cmn-014", client: "Xixón Sound", title: "Festival listening tent", kind: "Space + sound design", status: "in-progress", updated: "2 days ago", progress: 62, files: 9 },
-  { id: "cmn-013", client: "Private", title: "Home listening room", kind: "Acoustic fit-out", status: "review", updated: "5 days ago", progress: 90, files: 21 },
-  { id: "cmn-011", client: "LA PIPA", title: "Bar sound system + object shelf", kind: "Install", status: "delivered", updated: "Mar 2025", progress: 100, files: 34 },
+  { id: "d1", date: "The archive", title: "Why open the boxes now", body: "Thirty years and more than twenty moves made a glorious chaos of it all — negatives, hard drives, tapes, in no order anyone could reconstruct. In 2023 I moved home; in 2025 I started unpacking. Somewhere in the unboxing it became clear the work was worth more shared than stored. Shuffled at random, it means more than any chronology ever could." },
+  { id: "d2", date: "The sound", title: "On the tapes", body: "The music came from the same rooms as the pictures — squats and studios, late trains, borrowed gear. None of it was made to be released, which is exactly why it still sounds like the moment it was caught. What you hear are the masters, cleaned up only enough to play. Download the full-resolution file and it's yours to keep." },
+  { id: "d3", date: "The order", title: "Images first, then sound", body: "Blanco y Negro — the black-and-white documentary series in the shop — is the first thing out of the boxes. The tapes are the second. Both arrive the same way: unlabelled, out of sequence, as they turn up. This channel is where members hear and see each series before it goes anywhere else." },
 ];
 
 export const NAV: { key: string; label: string }[] = [
