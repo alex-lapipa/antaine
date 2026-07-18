@@ -22,7 +22,7 @@ export const BRAND = {
   lapipa: "https://www.lapipa.io",
   established: "Views from the edges",
   statement:
-    "Antaine Reilly makes and hunts things that hold attention — synth pieces and field recordings, photographic plates, small-run objects, and rooms built to be listened to. Alongside the practice he writes from the edges of music and cinema: the underground, the overlooked, the deliberately difficult.",
+    "Three decades documenting the spaces and moments outside the mainstream — underground music scenes, street parties, traveller communities, and the cultural friction where different worlds collide. From Reclaim the Streets and the Carnival Against Capital to Berlin's Love Parade, from Tokyo's alleys to Havana — the camera was always there.",
 };
 
 export type Work = {
@@ -39,33 +39,12 @@ export type Work = {
 };
 
 export const WORKS: Work[] = [
-  { id: "estuary", discipline: "sound", title: "Estuary", year: "2025", medium: "Modular synthesis / tidal field recordings", plate: "S · 01", hue: 190, featured: true,
-    blurb: "A 34-minute piece tuned to the ebb of the Lagan. Six patches, one take, no click." },
-  { id: "field-notes", discipline: "sound", title: "Field Notes, Vol. I", year: "2024", medium: "Cassette + digital", plate: "S · 02", hue: 28,
-    blurb: "Eleven short sound studies. Rooms, weather, machines left running." },
-  { id: "low-signal", discipline: "sound", title: "Low Signal", year: "2024", medium: "Live modular set", plate: "S · 03", hue: 74,
-    blurb: "Documented at LA PIPA. One hour of drift and interference." },
-
-  { id: "coast", discipline: "image", title: "Coast / Non-Coast", year: "2025", medium: "Archival pigment, edition of 12", plate: "I · 01", hue: 205, img: "img1781", featured: true,
-    blurb: "Plates of edges that refuse to be scenery — coast that won't behave like a postcard." },
-  { id: "found-objects", discipline: "image", title: "Found Objects", year: "2024", medium: "Silver gelatin", plate: "I · 02", hue: 40,
-    blurb: "The collection photographed as it was found, before it was arranged." },
-  { id: "greylight", discipline: "image", title: "Greylight", year: "2023", medium: "Digital duotone", plate: "I · 03", hue: 12,
-    blurb: "A study of the specific light of a wet Tuesday." },
-
-  { id: "concrete-monitor", discipline: "objects", title: "Concrete Monitor 01", year: "2025", medium: "Cast concrete, birch, driver", plate: "O · 01", hue: 22,
-    blurb: "A single full-range speaker in a mass that will outlast the sound." },
-  { id: "keeper", discipline: "objects", title: "The Keeper", year: "2024", medium: "Stoneware, glaze", plate: "O · 02", hue: 48,
-    blurb: "A vessel for the objects too small to keep any other way." },
-  { id: "patch-cards", discipline: "objects", title: "Patch Cards", year: "2024", medium: "Letterpress, boxed set", plate: "O · 03", hue: 74,
-    blurb: "Forty synth patches, printed. An instrument you read." },
-
-  { id: "listening-room", discipline: "spaces", title: "Caña North Drive", year: "2025", medium: "Interior + acoustic design (render)", plate: "P · 01", hue: 200, img: "cana", featured: true,
-    blurb: "A house built around a room you're meant to hear as much as see." },
-  { id: "la-pipa", discipline: "spaces", title: "LA PIPA", year: "2024", medium: "Bar, sound system & object shelf", plate: "P · 02", hue: 24, img: "pipa", featured: true,
+  { id: "harbord", discipline: "image", title: "Harbord Street, Toronto", year: "2016", medium: "Archival pigment, edition of 12", plate: "I · 01", hue: 205, img: "img1781", featured: true,
+    blurb: "A quiet corner of Toronto — Harbord Street under a moving sky. No one in the frame but the city itself." },
+  { id: "la-pipa", discipline: "spaces", title: "LA PIPA", year: "2024", medium: "Bar, sound system & object shelf", plate: "P · 01", hue: 24, img: "pipa", featured: true,
     blurb: "A room in Gijón tuned for late nights — the bar as an instrument. lapipa.io" },
-  { id: "installation-drift", discipline: "spaces", title: "Drift (installation)", year: "2023", medium: "Sound + light, sited", plate: "P · 03", hue: 260,
-    blurb: "A corridor you hear before you see. Shown once, then gone." },
+  { id: "listening-room", discipline: "spaces", title: "Caña North Drive", year: "2025", medium: "Interior + acoustic design", plate: "P · 02", hue: 200, img: "cana", featured: true,
+    blurb: "A house built around a room you're meant to hear as much as see." },
 ];
 
 export type Product = {
@@ -160,3 +139,16 @@ export const BLANCO_Y_NEGRO: GalleryImage[] = [
   { key: "img-6901", title: "Plate 6901", alt: "Blanco y Negro — Plate (6901) — black-and-white photograph by Antaine Reilly" },
   { key: "img-7670", title: "Plate 7670", alt: "Blanco y Negro — Plate (7670) — black-and-white photograph by Antaine Reilly" },
 ];
+
+export type Era = { period: string; title: string; body: string };
+export const JOURNEY: Era[] = [
+  { period: "1990s", title: "The London Years", body: "Arrived in London in my early twenties. Embedded in the underground music and protest movements — Reclaim the Streets, squatted venues like Tyssen Street Studios, and the explosion of acid techno culture reshaping the city. I was there when the sound systems rolled into the financial district on June 18th, 1999." },
+  { period: "2000s", title: "The Wandering", body: "Berlin, Barcelona, Tokyo, Cuba, Canada. The Love Parade in 2000, when over a million people gathered under one banner. Each destination added new layers to how culture, music and community interweave across borders. The camera was always there." },
+  { period: "2010s", title: "Barcelona & Beyond", body: "Deep involvement in Barcelona's electronic music scene — Sónar, Razzmatazz, Poble Espanyol. Documenting the evolution of underground culture as it adapted to new realities." },
+  { period: "Now", title: "La Pipa, Asturias", body: "Based in Asturias, where I co-founded La Pipa — a creative space carrying forward the spirit of those earlier experiments: collaboration, authenticity, and the belief that culture should be lived, not just consumed." },
+];
+
+export const UNBOXED = {
+  title: "Unboxed: Three Decades Unpublished",
+  body: "In 2025 I began releasing photographs that had been sitting in boxes and hard drives for decades — from the London street parties to Berlin's Tiergarten, from Tokyo's neon-lit alleys to Havana on election night 2016. Blanco y Negro is the first series.",
+};

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BRAND, DISCIPLINES } from "@/lib/site";
+import { BRAND, DISCIPLINES, JOURNEY, UNBOXED } from "@/lib/site";
 import { Img, Mark } from "./primitives";
 import { MEDIA } from "@/assets/media";
 import { ArrowRight } from "lucide-react";
@@ -25,6 +25,26 @@ export function About() {
                 <p className="mt-1 text-sm text-[hsl(var(--muted-foreground))]">{d.note}</p>
               </div>
             ))}
+          </div>
+
+          <div className="mt-12">
+            <div className="font-mono text-[11px] tracking-label text-[hsl(var(--muted-foreground))]">THE JOURNEY</div>
+            <div className="mt-4 grid gap-px border border-[hsl(var(--border))] bg-[hsl(var(--border))]">
+              {JOURNEY.map((e) => (
+                <div key={e.period} className="grid gap-2 bg-[hsl(var(--background))] p-5 sm:grid-cols-[110px_1fr]">
+                  <div>
+                    <div className="font-mono text-[10px] tracking-label text-[hsl(var(--accent))]">{e.period.toUpperCase()}</div>
+                    <div className="mt-1 font-display text-xl">{e.title}</div>
+                  </div>
+                  <p className="text-sm leading-relaxed text-[hsl(var(--muted-foreground))]">{e.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-8 border border-[hsl(var(--ink))] bg-[hsl(var(--card))] p-6">
+            <div className="font-mono text-[10px] tracking-label text-[hsl(var(--accent))]">{UNBOXED.title.toUpperCase()}</div>
+            <p className="mt-2 text-sm leading-relaxed">{UNBOXED.body}</p>
           </div>
 
           <div className="mt-10 flex flex-wrap gap-x-8 gap-y-2 font-mono text-[11px] tracking-label text-[hsl(var(--muted-foreground))]">
