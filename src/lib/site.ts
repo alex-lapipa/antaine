@@ -22,7 +22,7 @@ export const BRAND = {
   lapipa: "https://www.lapipa.io",
   established: "Views from the edges",
   statement:
-    "Views from the Edges is a double life, kept for over two decades: cities worked by day, their undersides walked by night. Business travel on one side; sound systems, squats and alternative thinking on the other. The edges are where the two meet — and the subject was never just the underground. It is people: their nature, their gatherings, the mystery of a moment that won't repeat.",
+    "Views from the Edges is a double life, kept for over two decades: cities worked by day, their undersides walked by night. Business travel on one side; underground clubs, free parties, festival fields and house parties that outlasted the weekend on the other. The edges are where the two meet — and the subject was never just the underground. It is people: their nature, their gatherings, the mystery of a moment that won't repeat.",
 };
 
 export type Work = {
@@ -115,7 +115,7 @@ export const UNBOXED_SOUND = {
 export type Dispatch = { id: string; date: string; title: string; body: string };
 export const DISPATCHES: Dispatch[] = [
   { id: "d1", date: "The archive", title: "Why open the boxes now", body: "Thirty years and more than twenty moves made a glorious chaos of it all — negatives, hard drives, tapes, in no order anyone could reconstruct. In 2023 I moved home; in 2025 I started unpacking. Somewhere in the unboxing it became clear the work was worth more shared than stored. Shuffled at random, it means more than any chronology ever could." },
-  { id: "d2", date: "The sound", title: "On the tapes", body: "The music came from the same rooms as the pictures — squats and studios, late trains, borrowed gear. None of it was made to be released, which is exactly why it still sounds like the moment it was caught. What you hear are the masters, cleaned up only enough to play. Download the full-resolution file and it's yours to keep." },
+  { id: "d2", date: "The sound", title: "On the tapes", body: "The music came from the same rooms as the pictures — club backrooms and home studios, house parties, festival fields, late trains, borrowed gear. None of it was made to be released, which is exactly why it still sounds like the moment it was caught. What you hear are the masters, cleaned up only enough to play. Download the full-resolution file and it's yours to keep." },
   { id: "d3", date: "The order", title: "Images first, then sound", body: "Blanco y Negro — the black-and-white documentary series in the shop — is the first thing out of the boxes. The tapes are the second. Both arrive the same way: unlabelled, out of sequence, as they turn up. This channel is where members hear and see each series before it goes anywhere else." },
 ];
 
@@ -136,7 +136,7 @@ export const BLANCO_Y_NEGRO: GalleryImage[] = [
   { key: "love-parade-ii", title: "Love Parade II", alt: "Blanco y Negro — Love Parade II — black-and-white photograph by Antaine Reilly" },
   { key: "reclaim-the-streets-london", title: "Reclaim the Streets, London", alt: "Blanco y Negro — Reclaim the Streets, London — black-and-white photograph by Antaine Reilly" },
   { key: "carnival-against-capital", title: "Carnival Against Capital", alt: "Blanco y Negro — Carnival Against Capital — black-and-white photograph by Antaine Reilly" },
-  { key: "hackney-squat-party-1999", title: "Hackney Squat Party, 1999", alt: "Blanco y Negro — Hackney squat party, 1999 — black-and-white photograph by Antaine Reilly" },
+  { key: "hackney-squat-party-1999", title: "Hackney Free Party, 1999", alt: "Blanco y Negro — Hackney free party, 1999 — black-and-white photograph by Antaine Reilly" },
   { key: "brooklyn-street", title: "Brooklyn Street", alt: "Blanco y Negro — Brooklyn street — black-and-white photograph by Antaine Reilly" },
   { key: "crossing-street", title: "Crossing", alt: "Blanco y Negro — Crossing, street portrait — black-and-white photograph by Antaine Reilly" },
   { key: "sonar-2015", title: "Sónar, 2015", alt: "Blanco y Negro — Sónar, 2015 — black-and-white photograph by Antaine Reilly" },
@@ -154,9 +154,9 @@ export const BLANCO_Y_NEGRO: GalleryImage[] = [
 
 export type Era = { period: string; title: string; body: string };
 export const JOURNEY: Era[] = [
-  { period: "1990s", title: "The London Years", body: "Arrived in London in my early twenties. Embedded in the underground music and protest movements — Reclaim the Streets, squatted venues like Tyssen Street Studios, and the explosion of acid techno culture reshaping the city. I was there when the sound systems rolled into the financial district on June 18th, 1999." },
-  { period: "2000s", title: "The Wandering", body: "Berlin, Barcelona, Tokyo, Cuba, Canada. The Love Parade in 2000, when over a million people gathered under one banner. Each destination added new layers to how culture, music and community interweave across borders. The camera was always there." },
-  { period: "2010s", title: "Barcelona & Beyond", body: "Deep involvement in Barcelona's electronic music scene — Sónar, Razzmatazz, Poble Espanyol. Documenting the evolution of underground culture as it adapted to new realities." },
+  { period: "1990s", title: "The London Years", body: "Arrived in London in my early twenties and went straight under the surface — underground clubs like Tyssen Street Studios, free parties that ran until Monday, house parties in every postcode, and the explosion of acid techno reshaping the city. I was there when the sound systems rolled into the financial district on June 18th, 1999." },
+  { period: "2000s", title: "The Wandering", body: "Berlin, Barcelona, Tokyo, Cuba, Canada. The Love Parade in 2000, when over a million people gathered under one banner; festivals, club rooms and after-parties across borders. Each destination added new layers to how culture, music and community interweave. The camera was always there." },
+  { period: "2010s", title: "Barcelona & Beyond", body: "Deep involvement in Barcelona's electronic music scene — Sónar, Razzmatazz, Poble Espanyol. Documenting club culture and festival seasons as the underground adapted to new realities." },
   { period: "Now", title: "La Pipa, Asturias", body: "Based in Asturias, where I co-founded La Pipa — a creative space carrying forward the spirit of those earlier experiments: collaboration, authenticity, and the belief that culture should be lived, not just consumed." },
 ];
 
