@@ -17,7 +17,7 @@ export function Footer({ go }: { go: (p: string) => void }) {
             <ul className="grid gap-2">
               {NAV.map((n) => (
                 <li key={n.key}>
-                  <button onClick={() => go(n.key)} className="link-underline font-sans text-sm opacity-80 hover:opacity-100">{n.label}</button>
+                  <button onClick={() => go(n.key)} className="link-underline -my-2 py-2 font-sans text-sm opacity-80 hover:opacity-100">{n.label}</button>
                 </li>
               ))}
             </ul>
@@ -34,17 +34,17 @@ export function Footer({ go }: { go: (p: string) => void }) {
           </div>
         </div>
         <div className="mt-10 border-t border-[hsl(var(--bone))]/15 pt-5">
-          <ul className="flex flex-wrap gap-x-5 gap-y-2 font-mono text-[10px] tracking-label opacity-50">
+          <ul className="flex flex-wrap gap-x-5 gap-y-2 font-mono text-[10px] tracking-label opacity-50 max-md:gap-y-3 max-md:text-[11px]">
             {POLICIES.map((p) => (
               <li key={p.label}>
-                <a href={p.url} target="_blank" rel="noreferrer" className="link-underline hover:opacity-100">{p.label}</a>
+                <a href={p.url} target="_blank" rel="noreferrer" className="link-underline -my-2 inline-block py-2 hover:opacity-100">{p.label}</a>
               </li>
             ))}
             <li>
-              <button onClick={openConsentSettings} className="link-underline hover:opacity-100">Cookie settings</button>
+              <button onClick={openConsentSettings} className="link-underline -my-2 py-2 hover:opacity-100">Cookie settings</button>
             </li>
-            <li><a href="/prints/" className="link-underline hover:opacity-100">Print shop</a></li>
-            <li><a href="/trade/" className="link-underline hover:opacity-100">Trade &amp; hospitality</a></li>
+            <li><a href="/prints/" className="link-underline -my-2 inline-block py-2 hover:opacity-100">Print shop</a></li>
+            <li><a href="/trade/" className="link-underline -my-2 inline-block py-2 hover:opacity-100">Trade &amp; hospitality</a></li>
           </ul>
         </div>
         <div className="mt-6 flex flex-col justify-between gap-2 border-t border-[hsl(var(--bone))]/15 pt-5 font-mono text-[10px] tracking-label opacity-50 sm:flex-row">

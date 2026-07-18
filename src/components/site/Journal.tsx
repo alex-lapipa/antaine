@@ -32,7 +32,7 @@ function Index({ onOpen }: { onOpen: (slug: string) => void }) {
               <Visual img={p.img} media={MEDIA} hue={p.hue} seed={p.slug} className="h-full w-full" label={`№ 0${POSTS.length - i}`} fit={p.img === "aphex" ? "contain" : "cover"} />
             </div>
             <div>
-              <div className="font-mono text-[10px] tracking-label text-[hsl(var(--accent))]">{p.kicker.toUpperCase()} · {p.published.toUpperCase()}</div>
+              <div className="font-mono text-[10px] tracking-label text-[hsl(var(--accent))] max-lg:text-[11px]">{p.kicker.toUpperCase()} · {p.published.toUpperCase()}</div>
               <h2 className="mt-2 font-display text-2xl leading-tight tracking-tightest transition-colors group-hover:text-[hsl(var(--accent))] sm:text-3xl">{p.title}</h2>
               <p className="mt-2 max-w-xl text-sm leading-relaxed text-[hsl(var(--muted-foreground))]">{p.dek}</p>
             </div>
@@ -47,19 +47,26 @@ function Index({ onOpen }: { onOpen: (slug: string) => void }) {
 function Reader({ post, onBack }: { post: Post; onBack: () => void }) {
   return (
     <article className="animate-rise">
-      <div className="relative h-[38vh] min-h-[260px] w-full overflow-hidden edge-hairline">
+      <div className="relative h-[30vh] min-h-[200px] w-full overflow-hidden edge-hairline sm:h-[38vh] sm:min-h-[260px]">
         <Visual img={post.img} media={MEDIA} hue={post.hue} seed={post.slug + "-hero"} className="h-full w-full" fit={post.img === "aphex" ? "contain" : "cover"} />
-        <div className="absolute inset-0 bg-gradient-to-t from-[hsl(var(--ink))]/70 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 mx-auto max-w-3xl px-4 pb-6 sm:px-8">
+        {/* Desktop keeps the overlaid title; on mobile the plate shows clean and the title stacks below */}
+        <div className="absolute inset-0 hidden bg-gradient-to-t from-[hsl(var(--ink))]/70 to-transparent sm:block" />
+        <div className="absolute inset-x-0 bottom-0 mx-auto hidden max-w-3xl px-4 pb-6 sm:block sm:px-8">
           <div className="font-mono text-[10px] tracking-label text-[hsl(var(--bone))]/80">{post.kicker.toUpperCase()} · {post.published.toUpperCase()}</div>
           <h1 className="mt-2 font-display text-3xl font-light leading-[1.02] tracking-tightest text-[hsl(var(--bone))] sm:text-5xl">{post.title}</h1>
         </div>
       </div>
+      <div className="mx-auto max-w-3xl px-4 pt-8 sm:hidden">
+        <div className="font-mono text-[11px] tracking-label text-[hsl(var(--accent))]">{post.kicker.toUpperCase()} · {post.published.toUpperCase()}</div>
+        <h1 className="mt-2 font-display text-3xl font-light leading-[1.05] tracking-tightest">{post.title}</h1>
+      </div>
 
       <div className="mx-auto max-w-3xl px-4 py-10 sm:px-8">
-        <button onClick={onBack} className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-label text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--accent))]">
-          <ArrowLeft className="h-4 w-4" /> All pieces
-        </button>
+        <div className="mb-8">
+          <button onClick={onBack} className="-my-3.5 inline-flex items-center gap-2 py-3.5 font-mono text-[11px] uppercase tracking-label text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--accent))]">
+            <ArrowLeft className="h-4 w-4" /> All pieces
+          </button>
+        </div>
 
         <p className="mb-8 border-l-2 border-[hsl(var(--accent))] pl-4 font-display text-xl italic leading-snug text-[hsl(var(--foreground))]">{post.dek}</p>
         <div className="mb-8 font-mono text-[11px] tracking-label text-[hsl(var(--muted-foreground))]">By {post.byline}</div>

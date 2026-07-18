@@ -24,6 +24,11 @@ header.top .wrap{display:flex;align-items:center;justify-content:space-between;h
 .brand{font-family:"Iowan Old Style",Georgia,serif;font-size:20px;letter-spacing:.02em}
 nav a{margin-left:22px;font-size:13px;color:var(--bone2);text-decoration:none}
 nav a:hover{color:var(--bone)}
+@media(max-width:640px){
+ header.top .wrap{height:auto;flex-wrap:wrap;gap:2px 0;padding-top:10px;padding-bottom:10px}
+ header.top nav{display:flex;flex-wrap:wrap;gap:2px 18px;width:100%}
+ nav a{margin-left:0;padding:8px 0;font-size:13px}
+}
 .crumb{font-size:12px;color:var(--muted);padding:22px 0 0}
 .crumb a{color:var(--muted);text-decoration:none}.crumb a:hover{color:var(--bone)}
 .pdp{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;padding:34px 0 72px;align-items:start}
@@ -66,7 +71,7 @@ footer.foot a:hover{color:var(--bone)}
 <div class="wrap">
 <div class="crumb"><a href="https://antaine.xyz/">Home</a> / <a href="/prints/">Prints</a> / Love Parade I</div>
 <div class="pdp">
-  <div class="frame"><img src="https://cdn.shopify.com/s/files/1/1065/9482/8619/files/antaine-room-love-parade-i.jpg?v=1784382629" alt="Love Parade I — framed black &amp; white photograph by Antaine Reilly shown in an interior" width="1000" height="750" loading="eager"></div>
+  <div class="frame"><img src="https://cdn.shopify.com/s/files/1/1065/9482/8619/files/antaine-room-love-parade-i.jpg?v=1784382629&width=1024" srcset="https://cdn.shopify.com/s/files/1/1065/9482/8619/files/antaine-room-love-parade-i.jpg?v=1784382629&width=480 480w, https://cdn.shopify.com/s/files/1/1065/9482/8619/files/antaine-room-love-parade-i.jpg?v=1784382629&width=768 768w, https://cdn.shopify.com/s/files/1/1065/9482/8619/files/antaine-room-love-parade-i.jpg?v=1784382629&width=1024 1024w" sizes="(max-width:860px) 100vw, 55vw" alt="Love Parade I — framed black &amp; white photograph by Antaine Reilly shown in an interior" width="1000" height="750" loading="eager"></div>
   <div>
     <div class="mono">Signed limited-edition photograph</div>
     <h1 class="title display">Love Parade I</h1>

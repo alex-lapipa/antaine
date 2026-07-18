@@ -1,17 +1,19 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, lazy, Suspense } from "react";
 import { CartProvider, AuthProvider } from "@/lib/store";
 import { WORKS, type Work } from "@/lib/site";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { Home } from "@/components/site/Home";
 import { WorkIndex, WorkDetail } from "@/components/site/Work";
-import { Shop } from "@/components/site/Shop";
-import { Journal } from "@/components/site/Journal";
-import { Portal } from "@/components/site/Portal";
-import { About } from "@/components/site/About";
 import { Cart } from "@/components/site/Cart";
 import { ConsentBanner } from "@/components/site/Consent";
 import { initAnalytics } from "@/lib/analytics";
+
+// Secondary views load as their own chunks — keeps the landing bundle lean.
+const Shop = lazy(() => import("@/components/site/Shop").then((m) => ({ default: m.Shop })));
+const Journal = lazy(() => import("@/components/site/Journal").then((m) => ({ default: m.Journal })));
+const Portal = lazy(() => import("@/components/site/Portal").then((m) => ({ default: m.Portal })));
+const About = lazy(() => import("@/components/site/About").then((m) => ({ default: m.About })));
 
 const PAGES = new Set(["home", "work", "journal", "shop", "portal", "about"]);
 
@@ -46,12 +48,14 @@ function Shell() {
     <div className="grain-fixed flex min-h-screen flex-col">
       <Nav page={page} go={go} />
       <main className="flex-1">
-        {page === "home" && <Home go={go} />}
-        {page === "work" && <WorkIndex openWork={openWork} />}
-        {page === "shop" && <Shop />}
-        {page === "journal" && <Journal />}
-        {page === "portal" && <Portal />}
-        {page === "about" && <About />}
+        <Suspense fallback={<div className="min-h-[60vh]" />}>
+          {page === "home" && <Home go={go} />}
+          {page === "work" && <WorkIndex openWork={openWork} />}
+          {page === "shop" && <Shop />}
+          {page === "journal" && <Journal />}
+          {page === "portal" && <Portal />}
+          {page === "about" && <About />}
+        </Suspense>
       </main>
       <Footer go={go} />
       <WorkDetail work={work} onClose={() => setWorkId(null)} />
