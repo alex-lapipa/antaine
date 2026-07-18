@@ -22,7 +22,7 @@ export const BRAND = {
   lapipa: "https://www.lapipa.io",
   established: "Views from the edges",
   statement:
-    "Three decades documenting the spaces and moments outside the mainstream — underground music scenes, street parties, traveller communities, and the cultural friction where different worlds collide. From Reclaim the Streets and the Carnival Against Capital to Berlin's Love Parade, from Tokyo's alleys to Havana — the camera was always there.",
+    "Views from the Edges is a double life, kept for over two decades: cities worked by day, their undersides walked by night. Business travel on one side; sound systems, squats and alternative thinking on the other. The edges are where the two meet — and the subject was never just the underground. It is people: their nature, their gatherings, the mystery of a moment that won't repeat.",
 };
 
 export type Work = {
@@ -150,5 +150,5 @@ export const JOURNEY: Era[] = [
 
 export const UNBOXED = {
   title: "Unboxed: Three Decades Unpublished",
-  body: "In 2025 I began releasing photographs that had been sitting in boxes and hard drives for decades — from the London street parties to Berlin's Tiergarten, from Tokyo's neon-lit alleys to Havana on election night 2016. Blanco y Negro is the first series.",
+  body: "In 2025 I began releasing photographs that had been sitting in boxes and hard drives for decades — from the London street parties to Berlin's Tiergarten, from Tokyo's neon-lit alleys to Havana on election night 2016. Taken between meetings and after them, in whatever city the work had sent me to. Blanco y Negro is the first series.",
 };
