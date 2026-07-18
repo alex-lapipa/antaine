@@ -23,6 +23,13 @@ async function storefront<T = unknown>(query: string, variables: Record<string, 
   return json.data as T;
 }
 
+export type SFVariant = {
+  id: string;
+  title: string;
+  priceEUR: number;
+  availableForSale: boolean;
+};
+
 export type SFProduct = {
   id: string;
   handle: string;
@@ -36,6 +43,7 @@ export type SFProduct = {
   currency: string;
   variantId: string | null;
   availableForSale: boolean;
+  variants: SFVariant[];
 };
 
 const PRODUCTS_QUERY = /* GraphQL */ `
@@ -51,7 +59,7 @@ const PRODUCTS_QUERY = /* GraphQL */ `
         availableForSale
         featuredImage { url altText }
         priceRange { minVariantPrice { amount currencyCode } }
-        variants(first: 1) { nodes { id availableForSale } }
+        variants(first: 10) { nodes { id title availableForSale price { amount } } }
       }
     }
   }
@@ -67,7 +75,7 @@ type RawProduct = {
   availableForSale: boolean;
   featuredImage: { url: string; altText: string | null } | null;
   priceRange: { minVariantPrice: { amount: string; currencyCode: string } };
-  variants: { nodes: { id: string; availableForSale: boolean }[] };
+  variants: { nodes: { id: string; title: string; availableForSale: boolean; price: { amount: string } }[] };
 };
 
 export async function fetchProducts(first = 100): Promise<SFProduct[]> {
@@ -85,6 +93,12 @@ export async function fetchProducts(first = 100): Promise<SFProduct[]> {
     currency: n.priceRange?.minVariantPrice?.currencyCode ?? "EUR",
     variantId: n.variants?.nodes?.[0]?.id ?? null,
     availableForSale: n.availableForSale,
+    variants: (n.variants?.nodes ?? []).map((v) => ({
+      id: v.id,
+      title: v.title,
+      priceEUR: Number(v.price?.amount ?? 0),
+      availableForSale: v.availableForSale,
+    })),
   }));
 }
 

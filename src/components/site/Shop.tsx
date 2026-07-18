@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useCart, eur } from "@/lib/store";
-import { fetchProducts, hueFor, shopifyReady, type SFProduct } from "@/lib/shopify";
+import { fetchProducts, hueFor, shopifyReady, type SFProduct, type SFVariant } from "@/lib/shopify";
 import { Visual } from "./primitives";
 import { Plus, Check } from "lucide-react";
 
@@ -11,6 +11,7 @@ export function Shop() {
   const [error, setError] = useState<string>("");
   const [cat, setCat] = useState<string>("all");
   const [justAdded, setJustAdded] = useState<string | null>(null);
+  const [sizeSel, setSizeSel] = useState<Record<string, string>>({}); // product.id -> variant.id
 
   useEffect(() => {
     let alive = true;
@@ -86,6 +87,10 @@ export function Shop() {
           {list.map((p) => {
             const soldOut = !p.availableForSale;
             const added = justAdded === p.id;
+            const multi = p.variants.length > 1;
+            const sel: SFVariant | undefined =
+              p.variants.find((v) => v.id === sizeSel[p.id]) ?? p.variants.find((v) => v.availableForSale) ?? p.variants[0];
+            const price = sel?.priceEUR ?? p.priceEUR;
             return (
               <div key={p.id} className="group flex flex-col">
                 <div className="relative aspect-[4/5] edge-hairline">
@@ -112,13 +117,41 @@ export function Shop() {
                       <div className="font-mono text-[10px] tracking-label text-[hsl(var(--muted-foreground))]">{p.productType}</div>
                     )}
                   </div>
-                  <div className="shrink-0 font-mono text-sm">{eur(p.priceEUR)}</div>
+                  <div className="shrink-0 font-mono text-sm">{eur(price)}</div>
                 </div>
 
+                {multi && (
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {p.variants.map((v) => (
+                      <button
+                        key={v.id}
+                        disabled={!v.availableForSale}
+                        onClick={() => setSizeSel((s) => ({ ...s, [p.id]: v.id }))}
+                        className={`rounded-sm border px-2 py-1 font-mono text-[10px] tracking-label transition-colors duration-300 ${
+                          sel?.id === v.id
+                            ? "border-[hsl(var(--ink))] bg-[hsl(var(--ink))] text-[hsl(var(--bone))]"
+                            : v.availableForSale
+                              ? "border-[hsl(var(--border))] hover:border-[hsl(var(--ink))]"
+                              : "cursor-not-allowed border-[hsl(var(--border))] opacity-40"
+                        }`}
+                      >
+                        {v.title}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
                 <button
-                  disabled={soldOut}
+                  disabled={soldOut || !sel}
                   onClick={() => {
-                    add(p);
+                    if (!sel) return;
+                    add({
+                      ...p,
+                      id: sel.id,
+                      variantId: sel.id,
+                      priceEUR: sel.priceEUR,
+                      title: multi ? `${p.title} — ${sel.title}` : p.title,
+                    });
                     setJustAdded(p.id);
                     setTimeout(() => setJustAdded(null), 1200);
                   }}
