@@ -49,7 +49,17 @@ export function About() {
 
         <div className="flex flex-col gap-4">
           <div className="relative aspect-[4/5] edge-hairline">
-            <Img src={MEDIA.img0984} className="h-full w-full" label="PORTRAIT" alt="Antaine Reilly" />
+            <Img src={MEDIA.img0984} className="h-full w-full" label="SPRINGFIELD HOUSE" alt="Springfield House, Tyssen Street, Dalston" />
+          </div>
+
+          <div className="border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-5">
+            <div className="font-mono text-[10px] tracking-label text-[hsl(var(--accent))]">SPRINGFIELD HOUSE — TYSSEN STREET, DALSTON</div>
+            <p className="mt-2 text-sm leading-relaxed text-[hsl(var(--foreground))]/85">
+              Built in 1902 as a furniture factory, later home to the Marconi wireless company, and today a warehouse
+              conversion of residential lofts and live/work units. In between those two lives — at the end of the
+              nineties — this building housed the infamous Tyssen Street Studios: one of London's legendary
+              underground clubs, and one of the rooms where this archive began.
+            </p>
           </div>
 
           <div className="border border-[hsl(var(--ink))] bg-[hsl(var(--card))] p-6">
